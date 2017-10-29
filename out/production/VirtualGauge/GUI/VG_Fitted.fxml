@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import java.lang.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import eu.hansolo.medusa.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.util.ArrayList?>
+
+<?import GUI.FunLevel?>
+
+<Pane fx:id="Chart1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1200.0" prefWidth="1600.0" style="-fx-background-color: rgb(0,0,0);" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ControllerVG">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="351.0" layoutX="709.0" layoutY="119.0" stroke="#323232" strokeType="INSIDE" strokeWidth="10.0" width="873.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="351.0" layoutX="709.0" layoutY="481.0" stroke="#323232" strokeType="INSIDE" strokeWidth="10.0" width="873.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="1073.0" layoutX="8.0" layoutY="119.0" stroke="#323232" strokeType="INSIDE" strokeWidth="10.0" width="685.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="345.0" layoutX="709.0" layoutY="845.0" stroke="#323232" strokeType="INSIDE" strokeWidth="10.0" width="871.0" />
+       <Label fx:id="title" alignment="CENTER" layoutX="120.0" layoutY="120.0" prefHeight="120.0" prefWidth="504.0" text="Pressure System" textFill="WHITE">
+           <font>
+               <Font size="67.0" />
+           </font>
+       </Label>
+      <Gauge fx:id="psys1" decimals="0" layoutX="38.0" layoutY="233.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" sectionsVisible="true" skinType="SIMPLE_SECTION" threshold="90.0" title="Pressure 1" unit="psi" />
+      <Gauge fx:id="psys2" decimals="0" layoutX="248.0" layoutY="233.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" title="Pressure 2" unit="psi" />
+      <Gauge fx:id="psys3" decimals="0" layoutX="458.0" layoutY="233.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" title="Pressure 3" unit="psi" />
+      <Gauge fx:id="psys10" customTickLabelFontSize="0.0" decimals="0" layoutX="38.0" layoutY="959.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" title="Pressure 4" unit="psi" />
+	  <Gauge fx:id="Tank_Temp_1" backgroundPaint="#bf303000" decimals="0" layoutX="1034.0" layoutY="141.0" lcdDesign="SECTIONS" prefHeight="86.0" prefWidth="150.0" skinType="LCD" subTitle="Temp" title="Temp" unit="C" />
+      <Gauge fx:id="Tank_Temp_2" decimals="0" layoutX="1034.0" layoutY="503.0" lcdDesign="SECTIONS" prefHeight="86.0" prefWidth="150.0" skinType="LCD" subTitle="Temp" title="Temp" unit="C" />
+      <!--Gauge fx:id="Thrust_Gauge" animated="true" backgroundPaint="WHITE" layoutX="824.0" layoutY="870.0" maxValue="1000.0" prefHeight="315.0" prefWidth="357.0" skinType="SPACE_X" threshold="900.0" title="Thrust" unit="lbs" /-->
+	  <Gauge fx:id="Thrust_Gauge" animated="true" layoutX="741.0" layoutY="870.0" maxValue="1000.0" prefHeight="303.0" prefWidth="354.0" skinType="SPACE_X" threshold="900.0" title="Thrust" unit="lbs" />
+	  
+	  <!--
+	  <Gauge fx:id="Tank_Fuel_1" layoutX="746.0" layoutY="254.0" prefHeight="214.0" prefWidth="238.0" skinType="LEVEL" subTitle="Fuel" title="Fuel" />
+      <Gauge fx:id="Tank_Fuel_2" gradientBarEnabled="true" layoutX="746.0" layoutY="612.0" prefHeight="214.0" prefWidth="238.0" skinType="LEVEL" />
+	  -->
+
+	  <FunLevel fx:id = "Tank_Fuel_1" layoutX="746.0" layoutY="242.0" prefHeight="214.0" prefWidth="238.0" color="green"/>
+      <FunLevel fx:id = "Tank_Fuel_2" layoutX="746.0" layoutY="600.0" prefHeight="214.0" prefWidth="238.0" color="green"/>
+	  
+	  <ImageView fitHeight="105.0" fitWidth="578.0" layoutX="54.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ColossusLogo.png" />
+         </image></ImageView>
+      <Gauge fx:id="psys4" customTickLabelFontSize="0.0" decimals="0" layoutX="38.0" layoutY="475.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" title="Pressure 4" unit="psi" />
+      <Gauge fx:id="psys5" customTickLabelFontSize="0.0" decimals="0" layoutX="248.0" layoutY="475.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" title="Pressure 4" unit="psi" />
+      <Gauge fx:id="psys6" customTickLabelFontSize="0.0" decimals="0" layoutX="458.0" layoutY="475.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" title="Pressure 4" unit="psi" />
+      <Gauge fx:id="psys11" customTickLabelFontSize="0.0" decimals="0" layoutX="248.0" layoutY="959.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" title="Pressure 4" unit="psi" />
+      <Gauge fx:id="psys7" customTickLabelFontSize="0.0" decimals="0" layoutX="38.0" layoutY="717.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" title="Pressure 4" unit="psi" />
+      <Gauge fx:id="psys8" customTickLabelFontSize="0.0" decimals="0" layoutX="248.0" layoutY="717.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" title="Pressure 4" unit="psi" />
+      <Gauge fx:id="psys9" customTickLabelFontSize="0.0" decimals="0" layoutX="458.0" layoutY="717.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" title="Pressure 4" unit="psi" />
+      <Gauge fx:id="psys12" customTickLabelFontSize="0.0" decimals="0" layoutX="458.0" layoutY="959.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" title="Pressure 4" unit="psi" />
+      <Gauge fx:id="psys13" customTickLabelFontSize="0.0" decimals="0" layoutX="995.0" layoutY="238.0" maxValue="1600.0" prefHeight="231.0" prefWidth="227.0" skinType="SIMPLE_SECTION" title="Pressure 4" unit="psi" />
+      <Gauge fx:id="psys14" customTickLabelFontSize="0.0" decimals="0" layoutX="995.0" layoutY="600.0" maxValue="1600.0" prefHeight="231.0" prefWidth="227.0" skinType="SIMPLE_SECTION" title="Pressure 4" unit="psi" />
+      <Label layoutX="101.0" layoutY="403.0" text="Gauge 1" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="308.0" layoutY="403.0" text="Gauge 2" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="520.0" layoutY="403.0" text="Gauge 3" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="96.0" layoutY="1129.0" text="Gauge 10" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="101.0" layoutY="643.0" text="Gauge 4" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="308.0" layoutY="643.0" text="Gauge 5" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="520.0" layoutY="643.0" text="Gauge 6" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="308.0" layoutY="1129.0" text="Gauge 11" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="101.0" layoutY="885.0" text="Gauge 7" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="308.0" layoutY="885.0" text="Gauge 8" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="520.0" layoutY="885.0" text="Gauge 9" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="518.0" layoutY="1129.0" text="Gauge 12" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="1068.0" layoutY="430.0" text="Gauge 13" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="1065.0" layoutY="786.0" text="Gauge 14" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <LineChart fx:id="chart1" animated="false" layoutX="1205.0" layoutY="140.0" legendVisible="false" prefHeight="315.0" prefWidth="360.0">
+         <xAxis>
+            <CategoryAxis animated="false" side="BOTTOM" tickLabelsVisible="false" tickMarkVisible="false" fx:id="xAxis" />
+         </xAxis>
+         <yAxis>
+            <NumberAxis animated="false" autoRanging="false" side="LEFT" tickUnit="100.0" upperBound="1600.0" />
+         </yAxis>
+      </LineChart>
+      <LineChart fx:id="chart2" animated="false" layoutX="1205.0" layoutY="502.0" legendVisible="false" prefHeight="315.0" prefWidth="360.0">
+         <xAxis>
+            <CategoryAxis animated="false" side="BOTTOM" tickLabelsVisible="false" tickMarkVisible="false" fx:id="xAxis1" />
+         </xAxis>
+         <yAxis>
+            <NumberAxis animated="false" autoRanging="false" side="LEFT" tickUnit="100.0" upperBound="1600.0" />
+         </yAxis>
+      </LineChart>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#808080" height="106.0" layoutX="1288.0" layoutY="5.0" stroke="#323232" strokeType="INSIDE" strokeWidth="10.0" width="195.0" />
+      <Gauge fx:id="battery" layoutX="1299.0" layoutY="-2.0" prefHeight="122.0" prefWidth="182.0" skinType="BATTERY" />
+      <LineChart fx:id="chartThrust" animated="false" layoutX="1088.0" layoutY="873.0" legendVisible="false" prefHeight="296.0" prefWidth="462.0">
+         <xAxis>
+            <CategoryAxis animated="false" side="BOTTOM" tickLabelsVisible="false" tickMarkVisible="false" fx:id="xAxis11" />
+         </xAxis>
+         <yAxis>
+            <NumberAxis animated="false" autoRanging="false" side="LEFT" tickUnit="100.0" upperBound="1000.0" />
+         </yAxis>
+      </LineChart>
+      <Label alignment="BOTTOM_CENTER" layoutX="732.0" layoutY="128.0" prefHeight="105.0" prefWidth="253.0" text="Tank 1" textFill="WHITE">
+         <font>
+            <Font size="67.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="732.0" layoutY="494.0" prefHeight="105.0" prefWidth="253.0" text="Tank 2" textFill="WHITE">
+         <font>
+            <Font size="67.0" />
+         </font>
+      </Label>
+      <Label fx:id="title1" alignment="CENTER" layoutX="650.0" layoutY="7.0" prefHeight="120.0" prefWidth="504.0" text="Virtual Gauge" textFill="WHITE">
+         <font>
+            <Font size="67.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>

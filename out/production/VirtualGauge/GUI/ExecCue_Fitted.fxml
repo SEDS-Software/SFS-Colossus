@@ -285,7 +285,7 @@
          </font>
       </Label>
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="185.0" layoutX="1517.0" layoutY="933.0" stroke="BLACK" strokeType="INSIDE" width="198.0" />
-      <Label layoutX="602.0" layoutY="24.0" prefHeight="147.0" prefWidth="697.0" text="Execution Queue" textFill="WHITE">
+      <Label layoutX="602.0" layoutY="24.0" prefHeight="147.0" prefWidth="697.0" text="Execution Cue" textFill="WHITE">
          <font>
             <Font size="93.0" />
          </font>

@@ -14,6 +14,6 @@ Deletes the build directory.
 Assembles the project. Bound to the custom `shadowJar`, `handleDependencies`, and `rmtmp` tasks. `shadowJar` assembles a "fat" or "uber" JAR, which is basically just a JAR that contains the compiled bytecode (project class files) and resources packed together with all the project dependencies. `handleDependencies` pulls dependencies from the central Maven repository and copies them over to `libs/`. `rmtmp` removes the `build/tmp/` directory since it only contains manifests from other internal tasks.
 
 #### `gradle post`
-Cleans up after the ColossusGUI post-execution. Right now, just deletes the `MARCO1` files.
+Cleans up after the ColossusGUI post-execution. Right now, deletes the `MARCO1` files the GUI generates and the various test files `randomIn` generates.
 
 These commands can all be chained together as well (e.g. `gradle clean build`).

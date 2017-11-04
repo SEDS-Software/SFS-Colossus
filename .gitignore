@@ -1,3 +1,11 @@
+# gradle files
+.gradle/*
+
+# IDE files
 .idea/*
-out/
 *.iml
+
+# compiled source
+out/
+build/
+target/

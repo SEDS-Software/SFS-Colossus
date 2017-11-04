@@ -16,7 +16,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        FXMLLoader loader = new FXMLLoader(Main.class.getResource("VG_Fitted.fxml"));
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("/VG_Fitted.fxml"));
         Pane pane = (Pane)loader.load();
         ControllerVG contr1 = loader.getController();
         //ControllerVG contr1 = new ControllerVG();
@@ -27,7 +27,7 @@ public class Main extends Application {
 
         Stage stage = new Stage();
         stage.setTitle("PNID Scene");
-        loader = new FXMLLoader(Main.class.getResource("PNID_Fitted.fxml"));
+        loader = new FXMLLoader(Main.class.getResource("/PNID_Fitted.fxml"));
         Pane pane2 = (Pane)loader.load();
         //ControllerPNID contPNID = loader.getController();
         ControllerPNID contPNID = new ControllerPNID();
@@ -52,7 +52,7 @@ public class Main extends Application {
 
         Stage newstage = new Stage();
         newstage.setTitle("Executive Cue");
-        loader = new FXMLLoader(Main.class.getResource("ExecCue_Fitted.fxml"));
+        loader = new FXMLLoader(Main.class.getResource("/ExecCue_Fitted.fxml"));
         Pane newpane2 = (Pane)loader.load();
         scene = new Scene(newpane2);
         newstage.setScene(scene);

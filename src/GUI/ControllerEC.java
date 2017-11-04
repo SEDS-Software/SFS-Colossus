@@ -434,7 +434,7 @@ public class ControllerEC {
                     scanner.close();
                     errorArea.setText(errorMessage + warningMessage);
                 } catch(Exception e) {
-                    System.out.println("error reading from sequence stage");
+                    System.out.println("error reading from errors file");
                 }
             }
         });

@@ -42,6 +42,8 @@ public class ControllerVG {
     private double thrustVal;
     private double prevFunLevel1;
     private double prevFunLevel2;
+    private double currFunLevel1;
+    private double currFunLevel2;
 
     private Gauge[] psys = {psys1, psys2,psys3,psys4, psys5, psys6, psys7,psys8,psys9, psys10, psys11, psys12,psys13,psys14};
     private double [] psysVals = new double [14];
@@ -194,6 +196,28 @@ public class ControllerVG {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
+                try{
+                    File file = new File("Tank_Fuel_1");
+                    Scanner scanner = new Scanner(file);
+                    currFunLevel2 = scanner.nextDouble()/100;
+                    if(currFunLevel2 != prevFunLevel2) {
+                        Tank_Fuel_2.setLevel(currFunLevel2);
+                        prevFunLevel2 = currFunLevel2;
+                    }
+                    scanner.close();
+
+                    file = new File("Tank_Fuel_2");
+                    scanner = new Scanner(file);
+                    currFunLevel1 = scanner.nextDouble()/100;
+                    if(currFunLevel1 != prevFunLevel1) {
+                        Tank_Fuel_1.setLevel(currFunLevel1);
+                        prevFunLevel1 = currFunLevel1;
+                    }
+                    scanner.close();
+                } catch (Exception e){
+                    //Do Nothing
+                }
+
                 try {
                     /*File file = new File("Tank_Fuel_1");
                     Scanner scanner = new Scanner(file);

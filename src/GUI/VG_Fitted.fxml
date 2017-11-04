@@ -24,10 +24,10 @@
                <Font size="67.0" />
            </font>
        </Label>
-      <Gauge fx:id="psys1" decimals="0" layoutX="38.0" layoutY="233.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" sectionsVisible="true" skinType="SIMPLE_SECTION" threshold="90.0" title="Pressure 1" unit="psi" />
-      <Gauge fx:id="psys2" decimals="0" layoutX="248.0" layoutY="233.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" title="Pressure 2" unit="psi" />
-      <Gauge fx:id="psys3" decimals="0" layoutX="458.0" layoutY="233.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" title="Pressure 3" unit="psi" />
-      <Gauge fx:id="psys10" customTickLabelFontSize="0.0" decimals="0" layoutX="38.0" layoutY="959.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" title="Pressure 4" unit="psi" />
+      <Gauge fx:id="psys1" decimals="0" layoutX="38.0" layoutY="233.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" sectionsVisible="true" skinType="SIMPLE_SECTION" threshold="90.0" unit="psi" />
+      <Gauge fx:id="psys2" decimals="0" layoutX="248.0" layoutY="233.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" unit="psi" />
+      <Gauge fx:id="psys3" decimals="0" layoutX="458.0" layoutY="233.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" unit="psi" />
+      <Gauge fx:id="psys10" customTickLabelFontSize="0.0" decimals="0" layoutX="38.0" layoutY="959.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" unit="psi" />
 	  <Gauge fx:id="Tank_Temp_1" backgroundPaint="#bf303000" decimals="0" layoutX="1034.0" layoutY="141.0" lcdDesign="SECTIONS" prefHeight="86.0" prefWidth="150.0" skinType="LCD" subTitle="Temp" title="Temp" unit="C" />
       <Gauge fx:id="Tank_Temp_2" decimals="0" layoutX="1034.0" layoutY="503.0" lcdDesign="SECTIONS" prefHeight="86.0" prefWidth="150.0" skinType="LCD" subTitle="Temp" title="Temp" unit="C" />
       <!--Gauge fx:id="Thrust_Gauge" animated="true" backgroundPaint="WHITE" layoutX="824.0" layoutY="870.0" maxValue="1000.0" prefHeight="315.0" prefWidth="357.0" skinType="SPACE_X" threshold="900.0" title="Thrust" unit="lbs" /-->
@@ -45,16 +45,16 @@
          <image>
             <Image url="@ColossusLogo.png" />
          </image></ImageView>
-      <Gauge fx:id="psys4" customTickLabelFontSize="0.0" decimals="0" layoutX="38.0" layoutY="475.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" title="Pressure 4" unit="psi" />
-      <Gauge fx:id="psys5" customTickLabelFontSize="0.0" decimals="0" layoutX="248.0" layoutY="475.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" title="Pressure 4" unit="psi" />
-      <Gauge fx:id="psys6" customTickLabelFontSize="0.0" decimals="0" layoutX="458.0" layoutY="475.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" title="Pressure 4" unit="psi" />
-      <Gauge fx:id="psys11" customTickLabelFontSize="0.0" decimals="0" layoutX="248.0" layoutY="959.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" title="Pressure 4" unit="psi" />
-      <Gauge fx:id="psys7" customTickLabelFontSize="0.0" decimals="0" layoutX="38.0" layoutY="717.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" title="Pressure 4" unit="psi" />
-      <Gauge fx:id="psys8" customTickLabelFontSize="0.0" decimals="0" layoutX="248.0" layoutY="717.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" title="Pressure 4" unit="psi" />
-      <Gauge fx:id="psys9" customTickLabelFontSize="0.0" decimals="0" layoutX="458.0" layoutY="717.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" title="Pressure 4" unit="psi" />
-      <Gauge fx:id="psys12" customTickLabelFontSize="0.0" decimals="0" layoutX="458.0" layoutY="959.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" title="Pressure 4" unit="psi" />
-      <Gauge fx:id="psys13" customTickLabelFontSize="0.0" decimals="0" layoutX="995.0" layoutY="238.0" maxValue="1600.0" prefHeight="231.0" prefWidth="227.0" skinType="SIMPLE_SECTION" title="Pressure 4" unit="psi" />
-      <Gauge fx:id="psys14" customTickLabelFontSize="0.0" decimals="0" layoutX="995.0" layoutY="600.0" maxValue="1600.0" prefHeight="231.0" prefWidth="227.0" skinType="SIMPLE_SECTION" title="Pressure 4" unit="psi" />
+      <Gauge fx:id="psys4" customTickLabelFontSize="0.0" decimals="0" layoutX="38.0" layoutY="475.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" unit="psi" />
+      <Gauge fx:id="psys5" customTickLabelFontSize="0.0" decimals="0" layoutX="248.0" layoutY="475.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" unit="psi" />
+      <Gauge fx:id="psys6" customTickLabelFontSize="0.0" decimals="0" layoutX="458.0" layoutY="475.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" unit="psi" />
+      <Gauge fx:id="psys11" customTickLabelFontSize="0.0" decimals="0" layoutX="248.0" layoutY="959.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" unit="psi" />
+      <Gauge fx:id="psys7" customTickLabelFontSize="0.0" decimals="0" layoutX="38.0" layoutY="717.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" unit="psi" />
+      <Gauge fx:id="psys8" customTickLabelFontSize="0.0" decimals="0" layoutX="248.0" layoutY="717.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" unit="psi" />
+      <Gauge fx:id="psys9" customTickLabelFontSize="0.0" decimals="0" layoutX="458.0" layoutY="717.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" unit="psi" />
+      <Gauge fx:id="psys12" customTickLabelFontSize="0.0" decimals="0" layoutX="458.0" layoutY="959.0" maxValue="1600.0" prefHeight="200.0" prefWidth="200.0" skinType="SIMPLE_SECTION" unit="psi" />
+      <Gauge fx:id="psys13" customTickLabelFontSize="0.0" decimals="0" layoutX="995.0" layoutY="238.0" maxValue="1600.0" prefHeight="231.0" prefWidth="227.0" skinType="SIMPLE_SECTION" unit="psi" />
+      <Gauge fx:id="psys14" customTickLabelFontSize="0.0" decimals="0" layoutX="995.0" layoutY="600.0" maxValue="1600.0" prefHeight="231.0" prefWidth="227.0" skinType="SIMPLE_SECTION" unit="psi" />
       <Label layoutX="101.0" layoutY="403.0" text="Gauge 1" textFill="WHITE">
          <font>
             <Font size="20.0" />

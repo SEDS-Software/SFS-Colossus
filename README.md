@@ -2,9 +2,10 @@
 
 ## Using Gradle
 Gradle's a build automation system that just makes it easier to manage dependencies and build projects.
-1. [Install Gradle.](https://gradle.org/install/)
-2. In the directory with `build.gradle`, run a Gradle command (see [the list of Gradle commands](#gradle-commands)).
-3. Once the project has been built, run it as an executable JAR: `java -jar build/libs/ColossusGUI.jar`.
+1. [Install the latest version of the JDK&mdash;__not__ the JRE.](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
+2. [Install Gradle.](https://gradle.org/install/)
+3. In the directory with `build.gradle`, run a Gradle command (see [the list of Gradle commands](#gradle-commands)).
+4. Once the project has been built, run it as an executable JAR: `java -jar build/libs/ColossusGUI.jar`.
 
 ## Gradle Commands
 #### `gradle clean`

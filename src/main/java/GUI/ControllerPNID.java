@@ -226,34 +226,34 @@ public class ControllerPNID{
 					if( prevStates[i].isVisible() != currState[i] ){
 						switch (i){
 							case 0:
-								valve150();
+								switchValve(closed150, open150);
 								break;
 							case 1:
-								valve151();
+								switchValve(closed151, open151);
 								break;
 							case 2:
-								valve250();
+								switchValve(closed250, open250);
 								break;
 							case 3:
-								valve251();
+								switchValve(closed251, open251);
 								break;
 							case 4:
-								valve252();
+								switchValve(closed252, open252);
 								break;
 							case 5:
-								valve253();
+								switchValve(closed253, open253);
 								break;
 							case 6:
-								valve350();
+								switchValve(closed350, open350);
 								break;
 							case 7:
-								valve351();
+								switchValve(closed351, open351);
 								break;
 							case 8:
-								valve352();
+								switchValve(closed352, open352);
 								break;
 							case 9:
-								valve353();
+								switchValve(closed353, open353);
 								break;
 						}
 					}
@@ -263,62 +263,9 @@ public class ControllerPNID{
 
 	}
 
-	public void valve252(){
-		boolean boo = closed252.isVisible();
-		closed252.setVisible(!boo);
-		open252.setVisible(boo);
+	public void switchValve(ImageView closed, ImageView open) {
+		boolean bool = closed.isVisible();
+		closed.setVisible(!bool);
+		open.setVisible(bool);
 	}
-	public void valve352(){
-		boolean boo = closed352.isVisible();
-		closed352.setVisible(!boo);
-		open352.setVisible(boo);
-	}
-	public void valve350(){
-		boolean boo = closed350.isVisible();
-		closed350.setVisible(!boo);
-		open350.setVisible(boo);
-	}
-	public void valve250(){
-		boolean boo = closed250.isVisible();
-		closed250.setVisible(!boo);
-		open250.setVisible(boo);
-	}
-	public void valve351(){
-		boolean boo = closed351.isVisible();
-		closed351.setVisible(!boo);
-		open351.setVisible(boo);
-	}
-	public void valve251(){
-		boolean boo = closed251.isVisible();
-		closed251.setVisible(!boo);
-		open251.setVisible(boo);
-	}
-	public void valve353(){
-		boolean boo = closed353.isVisible();
-		closed353.setVisible(!boo);
-		open353.setVisible(boo);
-	}
-	public void valve253(){
-		boolean boo = closed253.isVisible();
-		closed253.setVisible(!boo);
-		open253.setVisible(boo);
-	}
-	public void valve150(){
-		boolean boo = closed150.isVisible();
-		closed150.setVisible(!boo);
-		open150.setVisible(boo);
-	}
-	public void valve151(){
-		boolean boo = closed151.isVisible();
-		closed151.setVisible(!boo);
-		open151.setVisible(boo);
-	}
-	public void valveTop(){
-		boolean boo = closedTop.isVisible();
-		closedTop.setVisible(!boo);
-		openTop.setVisible(boo);
-	}
-
-
-
 }

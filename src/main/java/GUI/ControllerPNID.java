@@ -186,7 +186,7 @@ public class ControllerPNID {
 			final int j = i;
 			Platform.runLater(new Runnable() {
 				public void run() {
-					psysLabs[j].setText("" + (int) psysVals[j]);
+					psysLabs[j].setText(Long.toString(Math.round(psysVals[j])));
 				}
 			});
 		}
@@ -195,7 +195,7 @@ public class ControllerPNID {
 			final int j = i;
 			Platform.runLater(new Runnable() {
 				public void run() {
-					tempLabs[j].setText("" + (int) tempVals[j]);
+					tempLabs[j].setText(Long.toString(Math.round(tempVals[j])));
 				}
 			});
 		}

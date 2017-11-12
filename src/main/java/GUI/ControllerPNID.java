@@ -1,21 +1,19 @@
 package GUI;
 
+import com.sun.media.jfxmedia.events.PlayerTimeListener;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 
-import java.io.File;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
-
-public class ControllerPNID{
+public class ControllerPNID {
 
 	@FXML private Fun_Rect pBar786;
 	@FXML private Fun_Rect pBar707;
-	private double currFunLevel1;
-	private double currFunLevel2;
 	private double prevFunLevel1;
 	private double prevFunLevel2;
 
@@ -33,7 +31,7 @@ public class ControllerPNID{
 	@FXML private ImageView openTop;
 	@FXML private ImageView closed252;
 	@FXML private ImageView closed352;
-	@FXML private ImageView closed350;
+ 	@FXML private ImageView closed350;
 	@FXML private ImageView closed250;
 	@FXML private ImageView closed351;
 	@FXML private ImageView closed251;
@@ -67,17 +65,15 @@ public class ControllerPNID{
 	@FXML private Label T392;
 	@FXML private Label T393;
 
-	Label [] psysLabs = {PT120, PT121, PT1221, PT1222, PT123, PT220, PT221, PT222, PT223, PT321, PT322, PT323,
-		PT420, PT421};
-	Label [] tempLabs = {T290, T291, T292, T293, T390, T391, T392, T393};
+	Set<Label> psysLabs;
+	Set<Label> tempLabs;
 	private double[] psysVals = new double[14];
-	private double[] tempVals = new double [8];
+	private double[] tempVals = new double[8];
 
 	private String[] fileNames = {"Val150", "Val151", "Val250", "Val251", "Val252", "Val253", "Val350", "Val351", "Val352", "Val353"};
 	private String[] tempFiles = {"T290", "T291", "T292", "T293", "T390", "T391", "T392", "T393"};
 	private ImageView[] prevStates = {open150, open151, open250, open251, open252, open253, open350, open351, open352, open353};
 	private boolean[] currState = {true, true, true, true, true, true, true, true, true, true};
-
 
 
 	//These are going to be used for a possible debug mode
@@ -91,15 +87,19 @@ public class ControllerPNID{
 	@FXML
 	private void initialize() {
 
-		Label [] psysLabs = {PT120, PT121, PT1221, PT1222, PT123, PT220, PT221, PT222, PT223, PT321, PT322, PT323,
+		psysLabs = new HashSet<>();
+		Label[] PTLabels = {PT120, PT121, PT1221, PT1222, PT123, PT220, PT221, PT222, PT223, PT321, PT322, PT323,
 				PT420, PT421};
-		Label [] tempLabs = {T290, T291, T292, T293, T390, T391, T392, T393};
+		psysLabs.addAll(Arrays.asList(PTLabels));
+		tempLabs = new HashSet<>();
+		Label[] TLabels = {T290, T291, T292, T293, T390, T391, T392, T393};
+		tempLabs.addAll(Arrays.asList(TLabels));
 
-		for( int i=0; i<psysLabs.length; i++ ){
-			psysLabs[i].setText("0");
+		for (Label label : psysLabs) {
+			label.setText("0");
 		}
-		for( int i=0; i< tempLabs.length; i++ ) {
-			tempLabs[i].setText("0");
+		for (Label label : tempLabs) {
+			label.setText("0");
 		}
 
 		pBar707.setPrefWidth(65);
@@ -127,38 +127,38 @@ public class ControllerPNID{
 	}
 
 	private void getVal() {
-		for(int i = 1; i<=psysVals.length; i++) {
-			try{
+		for (int i = 1; i <= psysVals.length; i++) {
+			try {
 				File file = new File("PT" + i);
 				Scanner scanner = new Scanner(file);
 
 				double retVal = scanner.nextDouble();
 				scanner.close();
 
-				psysVals[i-1] = retVal;
-			}catch(Exception e) {
+				psysVals[i - 1] = retVal;
+			} catch (Exception e) {
 				//do nothing
 			}
 		}
-		for(int i = 1; i<=tempVals.length; i++) {
-			try{
+		for (int i = 1; i <= tempVals.length; i++) {
+			try {
 				File file = new File("" + tempFiles[i]);
 				Scanner scanner = new Scanner(file);
 
 				double retVal = scanner.nextDouble();
 				scanner.close();
 
-				tempVals[i-1] = retVal;
-			}catch(Exception e) {
+				tempVals[i - 1] = retVal;
+			} catch (Exception e) {
 				//do nothing
 			}
 		}
 
-		try{
+		try {
 			File file = new File("Tank_Fuel_1");
 			Scanner scanner = new Scanner(file);
-			currFunLevel2 = scanner.nextDouble()/100;
-			if(currFunLevel2 != prevFunLevel2) {
+			double currFunLevel2 = scanner.nextDouble() / 100;
+			if (currFunLevel2 != prevFunLevel2) {
 				pBar707.setLevel(currFunLevel2);
 				prevFunLevel2 = currFunLevel2;
 			}
@@ -166,65 +166,65 @@ public class ControllerPNID{
 
 			file = new File("Tank_Fuel_2");
 			scanner = new Scanner(file);
-			currFunLevel1 = scanner.nextDouble()/100;
-			if(currFunLevel1 != prevFunLevel1) {
+			double currFunLevel1 = scanner.nextDouble() / 100;
+			if (currFunLevel1 != prevFunLevel1) {
 				pBar786.setLevel(currFunLevel1);
 				prevFunLevel1 = currFunLevel1;
 			}
 			scanner.close();
-		} catch (Exception e){
+		} catch (Exception e) {
 			//Do Nothing
 		}
 	}
 
-	private void updateVal(){
+	private void updateVal() {
 		getVal();
-		Label [] psysLabs = {PT120, PT121, PT1221, PT1222, PT123, PT220, PT221, PT222, PT223, PT321, PT322, PT323, PT420, PT421};
-		Label [] tempLabs = {T290, T291, T292, T293, T390, T391, T392, T393};
+		Label[] psysLabs = {PT120, PT121, PT1221, PT1222, PT123, PT220, PT221, PT222, PT223, PT321, PT322, PT323, PT420, PT421};
+		Label[] tempLabs = {T290, T291, T292, T293, T390, T391, T392, T393};
 
-		for(int i=0; i<psysLabs.length; i++){
+		for (int i = 0; i < psysLabs.length; i++) {
 			final int j = i;
 			Platform.runLater(new Runnable() {
 				public void run() {
-					psysLabs[j].setText(""+(int)psysVals[j]);
+					psysLabs[j].setText("" + (int) psysVals[j]);
 				}
 			});
 		}
 
-		for(int i=0; i<tempLabs.length; i++){
+		for (int i = 0; i < tempLabs.length; i++) {
 			final int j = i;
 			Platform.runLater(new Runnable() {
 				public void run() {
-					tempLabs[j].setText(""+(int)tempVals[j]);
+					tempLabs[j].setText("" + (int) tempVals[j]);
 				}
 			});
 		}
 	}
 
-	private void getState(){
-		for(int i = 0; i<fileNames.length; i++) {
-			try{
+	private void getState() {
+		for (int i = 0; i < fileNames.length; i++) {
+			try {
 				File file = new File("" + fileNames[i]);
 				Scanner scanner = new Scanner(file);
 
-				currState[i]= (scanner.nextDouble() > 0);
+				currState[i] = (scanner.nextDouble() > 0);
 				scanner.close();
 
-			}catch(Exception e) {
+			} catch (Exception e) {
 				//do nothing
 			}
 		}
 	}
 
-	private void updateState(){
+	private void updateState() {
 		ImageView[] prevStates = {open150, open151, open250, open251, open252, open253, open350, open351, open352, open353};
 		getState();
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				for( int i=0; i<currState.length; i++ ){
-					if( prevStates[i].isVisible() != currState[i] ){
-						switch (i){
+				for (int i = 0; i < currState.length; i++) {
+					if (prevStates[i].isVisible() != currState[i]) {
+						switch (i) {
 							case 0:
 								switchValve(closed150, open150);
 								break;

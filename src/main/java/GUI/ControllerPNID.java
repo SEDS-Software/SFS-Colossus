@@ -1,13 +1,13 @@
 package GUI;
 
-import com.sun.media.jfxmedia.events.PlayerTimeListener;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class ControllerPNID {
@@ -31,7 +31,7 @@ public class ControllerPNID {
 	@FXML private ImageView openTop;
 	@FXML private ImageView closed252;
 	@FXML private ImageView closed352;
- 	@FXML private ImageView closed350;
+	@FXML private ImageView closed350;
 	@FXML private ImageView closed250;
 	@FXML private ImageView closed351;
 	@FXML private ImageView closed251;
@@ -67,12 +67,10 @@ public class ControllerPNID {
 
 	Set<Label> psysLabs;
 	Set<Label> tempLabs;
-	private double[] psysVals = new double[14];
-	private double[] tempVals = new double[8];
 
-	private String[] fileNames = {"Val150", "Val151", "Val250", "Val251", "Val252", "Val253", "Val350", "Val351", "Val352", "Val353"};
+	private String[] valveFiles = {"Val150", "Val151", "Val250", "Val251", "Val252", "Val253", "Val350", "Val351",
+			"Val352", "Val353"};
 	private String[] tempFiles = {"T290", "T291", "T292", "T293", "T390", "T391", "T392", "T393"};
-	private ImageView[] prevStates = {open150, open151, open250, open251, open252, open253, open350, open351, open352, open353};
 	private boolean[] currState = {true, true, true, true, true, true, true, true, true, true};
 
 
@@ -118,41 +116,51 @@ public class ControllerPNID {
 				updateState();
 				try {
 					Thread.sleep(100);
-				} catch (Exception e) {
-					System.out.println("sleep error");
+				} catch (InterruptedException e) {
+					System.out.println("Process interrupted.");
 				}
 			}
 		}).start();
 
 	}
 
-	private void getVal() {
-		for (int i = 1; i <= psysVals.length; i++) {
-			try {
-				File file = new File("PT" + i);
-				Scanner scanner = new Scanner(file);
+	private void updateVal() {
+		Platform.runLater(new Runnable() {
+			public void run() {
+				int i = 1;
 
-				double retVal = scanner.nextDouble();
-				scanner.close();
-
-				psysVals[i - 1] = retVal;
-			} catch (Exception e) {
-				//do nothing
+				for (Label psysLabel : psysLabs) {
+					File file = new File("PT" + i++);
+					try {
+						Scanner scanner = new Scanner(file);
+						psysLabel.setText(Long.toString(Math.round(scanner.nextDouble())));
+						scanner.close();
+					} catch (FileNotFoundException e) {
+						System.out.println("File not found: " + file.getAbsolutePath());
+					} catch (NoSuchElementException e) {
+						System.out.println("Unable to read file: PT" + (i-1));
+					}
+				}
 			}
-		}
-		for (int i = 1; i <= tempVals.length; i++) {
-			try {
-				File file = new File("" + tempFiles[i]);
-				Scanner scanner = new Scanner(file);
+		});
+		Platform.runLater(new Runnable() {
+			public void run() {
+				int i = 0;
+				for (Label tempLabel : tempLabs) {
+					File file = new File("" + tempFiles[i++]);
+					try {
+						Scanner scanner = new Scanner(file);
+						tempLabel.setText(Long.toString(Math.round(scanner.nextDouble())));
+						scanner.close();
+					} catch (FileNotFoundException e) {
+						System.out.println("File not found: " + file.getAbsolutePath());
+					} catch (NoSuchElementException e) {
+						System.out.println("Unable to read file: " + tempFiles[i-1]);
+					}
 
-				double retVal = scanner.nextDouble();
-				scanner.close();
-
-				tempVals[i - 1] = retVal;
-			} catch (Exception e) {
-				//do nothing
+				}
 			}
-		}
+		});
 
 		try {
 			File file = new File("Tank_Fuel_1");
@@ -177,34 +185,10 @@ public class ControllerPNID {
 		}
 	}
 
-	private void updateVal() {
-		getVal();
-		Label[] psysLabs = {PT120, PT121, PT1221, PT1222, PT123, PT220, PT221, PT222, PT223, PT321, PT322, PT323, PT420, PT421};
-		Label[] tempLabs = {T290, T291, T292, T293, T390, T391, T392, T393};
-
-		for (int i = 0; i < psysLabs.length; i++) {
-			final int j = i;
-			Platform.runLater(new Runnable() {
-				public void run() {
-					psysLabs[j].setText(Long.toString(Math.round(psysVals[j])));
-				}
-			});
-		}
-
-		for (int i = 0; i < tempLabs.length; i++) {
-			final int j = i;
-			Platform.runLater(new Runnable() {
-				public void run() {
-					tempLabs[j].setText(Long.toString(Math.round(tempVals[j])));
-				}
-			});
-		}
-	}
-
 	private void getState() {
-		for (int i = 0; i < fileNames.length; i++) {
+		for (int i = 0; i < valveFiles.length; i++) {
 			try {
-				File file = new File("" + fileNames[i]);
+				File file = new File("" + valveFiles[i]);
 				Scanner scanner = new Scanner(file);
 
 				currState[i] = (scanner.nextDouble() > 0);
@@ -217,8 +201,9 @@ public class ControllerPNID {
 	}
 
 	private void updateState() {
-		ImageView[] prevStates = {open150, open151, open250, open251, open252, open253, open350, open351, open352, open353};
 		getState();
+		ImageView[] prevStates = {open150, open151, open250, open251, open252, open253, open350, open351, open352,
+				open353};
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -263,7 +248,7 @@ public class ControllerPNID {
 
 	}
 
-	public void switchValve(ImageView closed, ImageView open) {
+	private void switchValve(ImageView closed, ImageView open) {
 		boolean bool = closed.isVisible();
 		closed.setVisible(!bool);
 		open.setVisible(bool);

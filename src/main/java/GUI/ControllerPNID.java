@@ -14,8 +14,8 @@ public class ControllerPNID {
 
 	@FXML private Fun_Rect pBar786;
 	@FXML private Fun_Rect pBar707;
-	private double prevFunLevel1;
-	private double prevFunLevel2;
+	private double prevLevel786;
+	private double prevLevel707;
 
 	@FXML private Rectangle botN21;
 	@FXML private ImageView open252;
@@ -162,26 +162,27 @@ public class ControllerPNID {
 			}
 		});
 
+		File file = null;
 		try {
-			File file = new File("Tank_Fuel_1");
+			file = new File("Tank_Fuel_1");
 			Scanner scanner = new Scanner(file);
-			double currFunLevel2 = scanner.nextDouble() / 100;
-			if (currFunLevel2 != prevFunLevel2) {
-				pBar707.setLevel(currFunLevel2);
-				prevFunLevel2 = currFunLevel2;
+			double funLevel707 = scanner.nextDouble() / 100;
+			if (funLevel707 != prevLevel707) {
+				pBar707.setLevel(funLevel707);
+				prevLevel707 = funLevel707;
 			}
 			scanner.close();
 
 			file = new File("Tank_Fuel_2");
 			scanner = new Scanner(file);
-			double currFunLevel1 = scanner.nextDouble() / 100;
-			if (currFunLevel1 != prevFunLevel1) {
-				pBar786.setLevel(currFunLevel1);
-				prevFunLevel1 = currFunLevel1;
+			double funLevel786 = scanner.nextDouble() / 100;
+			if (funLevel786 != prevLevel786) {
+				pBar786.setLevel(funLevel786);
+				prevLevel786 = funLevel786;
 			}
 			scanner.close();
-		} catch (Exception e) {
-			//Do Nothing
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found: " + file.getName());
 		}
 	}
 

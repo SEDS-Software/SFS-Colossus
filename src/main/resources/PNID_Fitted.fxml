@@ -35,13 +35,13 @@
       <Circle fill="DODGERBLUE" layoutX="1457.0" layoutY="833.0" opacity="0.17" radius="17.0" stroke="BLACK" strokeType="INSIDE" />
       <Circle fill="DODGERBLUE" layoutX="308.0" layoutY="753.0" opacity="0.17" radius="17.0" stroke="BLACK" strokeType="INSIDE" />
       <!--
-      <ProgressBar fx:id="pBar786" layoutX="285.0" layoutY="584.0" opacity="0.51" prefHeight="70.0" prefWidth="129.0" progress="0.33" rotate="-90.0" />
-      <ProgressBar fx:id="pBar707" layoutX="1352.0" layoutY="585.0" opacity="0.51" prefHeight="70.0" prefWidth="129.0" progress="0.33" rotate="-90.0" />
+      <ProgressBar fx:id="fuel786" layoutX="285.0" layoutY="584.0" opacity="0.51" prefHeight="70.0" prefWidth="129.0" progress="0.33" rotate="-90.0" />
+      <ProgressBar fx:id="lox707" layoutX="1352.0" layoutY="585.0" opacity="0.51" prefHeight="70.0" prefWidth="129.0" progress="0.33" rotate="-90.0" />
       <ProgressIndicator fx:id="pInd786" layoutX="393.0" layoutY="589.0" progress="1.0" />
       <ProgressIndicator fx:id="pInd707" layoutX="1457.0" layoutY="589.0" progress="0.59" />
       -->
-      <Fun_Rect fx:id="pBar786" opacity="0.5" />
-      <Fun_Rect fx:id="pBar707" opacity="0.5" />
+      <Fun_Rect fx:id="fuel786" opacity="0.5" />
+      <Fun_Rect fx:id="lox707" opacity="0.5" />
       <ImageView fx:id="open252" fitHeight="35.0" fitWidth="52.0" layoutX="418.0" layoutY="683.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@OpenGreen.png" />

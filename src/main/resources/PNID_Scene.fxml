@@ -32,8 +32,8 @@
       <Circle fill="DODGERBLUE" layoutX="347.0" layoutY="938.0" opacity="0.17" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
       <Circle fill="DODGERBLUE" layoutX="1638.0" layoutY="936.0" opacity="0.17" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
       <Circle fill="DODGERBLUE" layoutX="346.0" layoutY="848.0" opacity="0.17" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
-      <ProgressBar fx:id="pBar786" layoutX="316.0" layoutY="653.0" opacity="0.51" prefHeight="85.0" prefWidth="150.0" progress="0.33" rotate="-90.0" />
-      <ProgressBar fx:id="pBar707" layoutX="1516.0" layoutY="658.0" opacity="0.51" prefHeight="85.0" prefWidth="150.0" progress="0.33" rotate="-90.0" />
+      <ProgressBar fx:id="fuel786" layoutX="316.0" layoutY="653.0" opacity="0.51" prefHeight="85.0" prefWidth="150.0" progress="0.33" rotate="-90.0" />
+      <ProgressBar fx:id="lox707" layoutX="1516.0" layoutY="658.0" opacity="0.51" prefHeight="85.0" prefWidth="150.0" progress="0.33" rotate="-90.0" />
       <ProgressIndicator fx:id="pInd786" layoutX="432.0" layoutY="626.0" progress="0.37" />
       <ProgressIndicator fx:id="pInd707" layoutX="1634.0" layoutY="626.0" progress="0.33" />
       <Slider fx:id="slider786" layoutX="330.0" layoutY="626.0" orientation="VERTICAL" />

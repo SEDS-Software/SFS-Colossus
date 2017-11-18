@@ -58,6 +58,7 @@ public class Main extends Application {
 		pane2.setTranslateX(-screenWidth * (1-PNID_SCALE)/PNID_OFFSET);
 		pane2.setTranslateY(-screenHeight * (1-PNID_SCALE)/PNID_OFFSET);
 		stage.setScene(scene);
+		stage.setFullScreen(true);
 		stage.show();
 
 
@@ -74,6 +75,7 @@ public class Main extends Application {
 		scene = new Scene(newpane2);
 		scene.setFill(Color.BLACK);
 		newstage.setScene(scene);
+		newstage.setFullScreen(true);
 		newstage.show();
 	}
 

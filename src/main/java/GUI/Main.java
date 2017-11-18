@@ -10,9 +10,9 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-	private static final double PNID_SCALE = .711;
-	private static final double VG_SCALE = .61;
-	private static final double EC_SCALE = .64;
+	private static final double PNID_SCALE = .8;
+	private static final double VG_SCALE = .8;
+	private static final double EC_SCALE = .8;
 
 
 	private static final double PNID_OFFSET = 2;

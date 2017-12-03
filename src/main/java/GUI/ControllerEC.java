@@ -182,7 +182,18 @@ public class ControllerEC {
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				if (timer.getText().equals("0")) {
 					ecState= "testing";
+                    next1.setText("Start");
 					next.setDisable(true);
+
+					File fnew = new File("Triggered");
+					String line1 = "1";
+					try {
+						FileWriter fw = new FileWriter(fnew, false);
+						fw.write(line1);
+						fw.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 				int timerCount = Integer.parseInt(timer.getText());
 			}
@@ -202,6 +213,7 @@ public class ControllerEC {
 			while (true) {
 				getCurrState();
 				getErrors();
+				displaySeqStage();
 				try {
 					Thread.sleep(100);
 				} catch (Exception e) {
@@ -253,6 +265,16 @@ public class ControllerEC {
 		standByBut.setDisable(false);
 		caliBut.setDisable(false);
 		hotBut.setDisable(false);
+
+		File fnew = new File("Triggered");
+		String line1 = "0";
+		try {
+			FileWriter fw = new FileWriter(fnew, false);
+			fw.write(line1);
+			fw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -419,49 +441,15 @@ public class ControllerEC {
 		return stageNum;
 	}
 
-	/**
-	 * Calibrate method to signal to the DAQ to start calibration
-	 */
-	public void calibrate(){
-		File fnew = new File("Calibrate");
-		String line1 = "" + calibrationInt;
-		try {
-			FileWriter fw = new FileWriter(fnew, false);
-			fw.write(line1);
-			fw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		calibrationInt = (calibrationInt == 0) ? 1 : 0;
-	}
+	public void displaySeqStage(){
+	    int currStage = getSeqStage();
+		if(ecState == "testing" && currStage != seqStage){
+			Label[] seqLabel = {s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10}; // holds the labels for the HotFire Sequence
+			Label[] currLabel = {c1, c2, c3, c4, c5, c6, c7, c8, c9, c10}; // holds labels for current valve states
 
-	/**
-	 * Controls the next button functionality.
-	 * If clicked during counting down, the whole process is reset
-	 * Otherwise we increment the stage of the Hotfire Sequence
-	 */
-	public void nextState() {
-		Label[] seqLabel = {s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10}; // holds the labels for the HotFire Sequence
-		Label[] currLabel = {c1, c2, c3, c4, c5, c6, c7, c8, c9, c10}; // holds labels for current valve states
+			currMode.setText("Hot Fire");
+            seqStage = currStage;
 
-		currMode.setText("Hot Fire");
-		/* the sequence of states is standby -> preCount -> countdown -> testing */
-		if ( ecState.equals("countdown")) { //if the cancel button is clicked during countdown
-			reset(); //reset everything
-		} else if (ecState.equals("standby")) { //if the button is clicked in standby
-			next.setDisable(false);
-			ecState= "preCount";
-		} else if (ecState.equals("preCount")) {
-			seqLabel[0].setStyle("-fx-background-color: GREEN");
-			currGreen = seqLabel[0];
-			standByBut.setDisable(true);
-			caliBut.setDisable(true);
-			//TODO uncomment the timer button trigger
-			hotBut.setDisable(true);
-			countDown();
-		} else { // countdown is over, increment through the HotFire sequence
-			manualInc();
-			seqStage = getSeqStage();
 			if( currGreen != null ){
 				currGreen.setStyle("-fx-background-color: GREY");
 			}
@@ -485,6 +473,82 @@ public class ControllerEC {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Calibrate method to signal to the DAQ to start calibration
+	 */
+	public void calibrate(){
+		File fnew = new File("Calibrate");
+		String line1 = "" + calibrationInt;
+		try {
+			FileWriter fw = new FileWriter(fnew, false);
+			fw.write(line1);
+			fw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		calibrationInt = (calibrationInt == 0) ? 1 : 0;
+	}
+
+	public void hotfire(){
+        if (ecState.equals("standby")) { //if the button is clicked in standby
+            next.setDisable(false);
+            ecState= "preCount";
+        }
+    }
+
+	/**
+	 * Controls the next button functionality.
+	 * If clicked during counting down, the whole process is reset
+	 * Otherwise we increment the stage of the Hotfire Sequence
+	 */
+	public void nextState() {
+		Label[] seqLabel = {s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10}; // holds the labels for the HotFire Sequence
+		Label[] currLabel = {c1, c2, c3, c4, c5, c6, c7, c8, c9, c10}; // holds labels for current valve states
+
+		currMode.setText("Hot Fire");
+		/* the sequence of states is standby -> preCount -> countdown -> testing */
+		if (ecState.equals("standby")) { //if the button is clicked in standby
+//			next.setDisable(false);
+//			ecState= "preCount";
+		} else if (ecState.equals("preCount")) {
+			seqLabel[0].setStyle("-fx-background-color: GREEN");
+			currGreen = seqLabel[0];
+			standByBut.setDisable(true);
+			caliBut.setDisable(true);
+			//TODO uncomment the timer button trigger
+			hotBut.setDisable(true);
+			countDown();
+		} else if ( ecState.equals("countdown")) { //if the cancel button is clicked during countdown
+			reset(); //reset everything
+		}
+//		else { // countdown is over, increment through the HotFire sequence
+//			manualInc();
+//			seqStage = getSeqStage();
+//			if( currGreen != null ){
+//				currGreen.setStyle("-fx-background-color: GREY");
+//			}
+//			if (seqStage == 0) { //if the sequence is now 0, the testing is over and reset everything
+//				reset();
+//			} else {
+//				seqLabel[seqStage].setStyle("-fx-background-color: GREEN");
+//				currGreen = seqLabel[seqStage];
+//				getCurrState();
+//				boolean valveInError = false; //keeps track of any valves in the wrong state
+//				for (int i=0; i<currState.length; i++) {
+//					if (currState[i] != stageStates[seqStage][i]) {
+//						currLabel[i].setStyle("-fx-background-color: RED");
+//						valveInError = true;
+//					} else {
+//						currLabel[i].setStyle("-fx-background-color: GREY");
+//					}
+//				}
+//				if(valveInError){
+//					errorCountDown();
+//				}
+//			}
+//		}
 	}
 
 	/**
@@ -512,30 +576,6 @@ public class ControllerEC {
 		errorValveString +=  "Warning: " + valveName[indexOfValve] +" not in correct state\n";
 	}
 
-	public void abortEntered() {
-		FadeTransition fade = new FadeTransition(Duration.millis(250), abort1);
-		fade.setFromValue(1.0);
-		fade.setToValue(0.0);
-
-		FadeTransition fadein = new FadeTransition(Duration.millis(250), abort2);
-		fadein.setFromValue((0.0));
-		fadein.setToValue(1.0);
-
-		ParallelTransition pt = new ParallelTransition(fade, fadein);
-		pt.play();
-	}
-	public void abortExited() {
-		FadeTransition fade = new FadeTransition(Duration.millis(250), abort2);
-		fade.setFromValue(1.0);
-		fade.setToValue(0.0);
-
-		FadeTransition fadein = new FadeTransition(Duration.millis(250), abort1);
-		fadein.setFromValue((0.0));
-		fadein.setToValue(1.0);
-
-		ParallelTransition pt = new ParallelTransition(fade, fadein);
-		pt.play();
-	}
 	public void abortPressed() {
 
 		File fnew = new File("MARCO1");
@@ -553,41 +593,66 @@ public class ControllerEC {
 
 	}
 
+	public void abortEntered() {
+//		FadeTransition fade = new FadeTransition(Duration.millis(250), abort1);
+//		fade.setFromValue(1.0);
+//		fade.setToValue(0.0);
+//
+//		FadeTransition fadein = new FadeTransition(Duration.millis(250), abort2);
+//		fadein.setFromValue((0.0));
+//		fadein.setToValue(1.0);
+//
+//		ParallelTransition pt = new ParallelTransition(fade, fadein);
+//		pt.play();
+	}
+	public void abortExited() {
+//		FadeTransition fade = new FadeTransition(Duration.millis(250), abort2);
+//		fade.setFromValue(1.0);
+//		fade.setToValue(0.0);
+//
+//		FadeTransition fadein = new FadeTransition(Duration.millis(250), abort1);
+//		fadein.setFromValue((0.0));
+//		fadein.setToValue(1.0);
+//
+//		ParallelTransition pt = new ParallelTransition(fade, fadein);
+//		pt.play();
+	}
+
 	public void nextEntered() {
-		double preferredPos = next1Orig - 250;
-
-		//get this code from http://stackoverflow.com/questions/31807329/get-screen-coordinates-of-a-node-in-javafx-8
-		//it prevents wild offset of the animation
-		if( next.getStyle().contains("GREEN")) {
-			Bounds bounds = next1.getBoundsInLocal();
-			Bounds screen = next1.localToScene(bounds);
-			double translate = preferredPos - screen.getMinX();
-
-			TranslateTransition away = new TranslateTransition(Duration.millis(250), next1);
-			away.setByX(translate);
-
-			TranslateTransition to = new TranslateTransition(Duration.millis(250), next2);
-			to.setByX(translate);
-
-			ParallelTransition pt = new ParallelTransition(away, to);
-			pt.play();
-		}
+//		double preferredPos = next1Orig - 250;
+//
+//		//get this code from http://stackoverflow.com/questions/31807329/get-screen-coordinates-of-a-node-in-javafx-8
+//		//it prevents wild offset of the animation
+//		if( next.getStyle().contains("GREEN")) {
+//			Bounds bounds = next1.getBoundsInLocal();
+//			Bounds screen = next1.localToScene(bounds);
+//			double translate = preferredPos - screen.getMinX();
+//
+//			TranslateTransition away = new TranslateTransition(Duration.millis(250), next1);
+//			away.setByX(translate);
+//
+//			TranslateTransition to = new TranslateTransition(Duration.millis(250), next2);
+//			to.setByX(translate);
+//
+//			ParallelTransition pt = new ParallelTransition(away, to);
+//			pt.play();
+//		}
 	}
 	public void nextExited() {
-		double preferredPos = next1Orig;
-		Bounds bounds = next1.getBoundsInLocal();
-		Bounds screen = next1.localToScene(bounds);
-		//System.out.println(screen.getMinX());
-		double translate = preferredPos - screen.getMinX();
-
-
-		TranslateTransition away = new TranslateTransition(Duration.millis(250), next1);
-		away.setByX(translate);
-
-		TranslateTransition to = new TranslateTransition(Duration.millis(250), next2);
-		to.setByX(translate);
-
-		ParallelTransition pt = new ParallelTransition(away, to);
-		pt.play();
+//		double preferredPos = next1Orig;
+//		Bounds bounds = next1.getBoundsInLocal();
+//		Bounds screen = next1.localToScene(bounds);
+//		//System.out.println(screen.getMinX());
+//		double translate = preferredPos - screen.getMinX();
+//
+//
+//		TranslateTransition away = new TranslateTransition(Duration.millis(250), next1);
+//		away.setByX(translate);
+//
+//		TranslateTransition to = new TranslateTransition(Duration.millis(250), next2);
+//		to.setByX(translate);
+//
+//		ParallelTransition pt = new ParallelTransition(away, to);
+//		pt.play();
 	}
 }

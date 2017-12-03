@@ -35,7 +35,7 @@
             </Label>
             <HBox prefHeight="218.0" prefWidth="697.0">
                <children>
-                  <Button fx:id="hotBut" mnemonicParsing="false" onMouseClicked="#nextState" prefHeight="158.0" prefWidth="247.0" text="Hot Fire">
+                  <Button fx:id="hotBut" mnemonicParsing="false" onMouseClicked="#hotfire" prefHeight="158.0" prefWidth="247.0" text="Hot Fire">
                      <font>
                         <Font size="31.0" />
                      </font>

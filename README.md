@@ -7,6 +7,20 @@ Gradle's a build automation system that just makes it easier to manage dependenc
 3. In the directory with `build.gradle`, run a Gradle command (see [the list of Gradle commands](#gradle-commands)).
 4. Once the project has been built, run it as an executable JAR: `java -jar build/libs/ColossusGUI.jar`.
 
+## "Testing"
+To test if the GUI works, there's a simulation available within `src/test` that randomly generates data files for the GUI to read in as if they were from the DAQ itself. Note: the entire project must be built (see [the section on Gradle commands](#gradle-commands)) before the simulation can be run. After building, run the following commands in a separate terminal:
+```bash
+~$ cd build/classes/java/test
+~$ java sim.random
+```
+
+The `sim.random` process will be running through the other terminal now, so the original terminal can be used to run the GUI as an executable JAR (as outlined above):
+```bash
+~$ java -jar build/libs/ColossusGUI.jar
+```
+
+To stop running the simulations, interrupt both the `sim.random` and GUI processes via `CTRL-C`.
+
 ## Gradle Commands
 #### `gradle clean`
 Deletes the build directory.

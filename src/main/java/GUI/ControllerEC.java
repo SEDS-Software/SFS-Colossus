@@ -13,10 +13,8 @@ import javafx.scene.control.TextArea;
 import javafx.animation.*;
 import javafx.util.Duration;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class ControllerEC {
 
@@ -144,73 +142,17 @@ public class ControllerEC {
 	//error  messages to print based on the file Error.txt
 	private String[] errorMsgs = {
 			"E01: Over pressurization: Propellant",
-			"E02: Over pressurization: Oxidizer",
-			"E03-1: Over pressurization: Injector port 1",
-			"E03-2: Over pressurization: Injector port 2",
-			"E03-3: Over pressurization: Injector port 3",
-			"E03-4: Over pressurization: Injector port 4",
-			"E03-5: Over pressurization: Injector port 5",
-			"E03-6: Over pressurization: Injector port 6",
-			"E03-7: Over pressurization: Injector port 7",
-			"E03-8: Over pressurization: Injector port 8",
-			"E03-9: Over pressurization: Injector port 9",
-			"E03-10: Over pressurization: Injector port 10",
-			"E03-11: Over pressurization: Injector port 11",
-			"E03-12: Over pressurization: Injector port 12",
-			"E04: Engine temperature anomaly",
-			"E05: Oxidizer weight loss",
-			"E06: Propellant weight loss",
-			"E07: LOX flow rate anomaly",
-			"E08: RP Flow rate anomaly",
-			"E09-1: Solenoid #1 actuation failed",
-			"E09-2: Solenoid #2 actuation failed",
-			"E09-3: Solenoid #3 actuation failed",
-			"E09-4: Solenoid #4 actuation failed",
-			"E09-5: Solenoid #5 actuation failed",
-			"E09-6: Solenoid #6 actuation failed",
-			"E09-7: Solenoid #7 actuation failed",
-			"E09-8: Solenoid #8 actuation failed",
-			"E09-9: Solenoid #9 actuation failed",
-			"E09-10: Solenoid #10 actuation failed",
-			"E09-11: Solenoid #11 actuation failed",
-			"E09-12: Solenoid #12 actuation failed",
-			"E10: Power rail anomaly",
-			"E11: Electronics overheating"};
+			"E02: Over pressurization: Oxidizer"};
 
 	private String[] warningMsgs = {
 			"W01: Over pressurization: Propellant",
 			"W02: Over pressurization: Oxidizer",
-			"W03-1: Over pressurization: Injector port 1",
-			"W03-2: Over pressurization: Injector port 2",
-			"W03-3: Over pressurization: Injector port 3",
-			"W03-4: Over pressurization: Injector port 4",
-			"W03-5: Over pressurization: Injector port 5",
-			"W03-6: Over pressurization: Injector port 6",
-			"W03-7: Over pressurization: Injector port 7",
-			"W03-8: Over pressurization: Injector port 8",
-			"W03-9: Over pressurization: Injector port 9",
-			"W03-10: Over pressurization: Injector port 10",
-			"W03-11: Over pressurization: Injector port 11",
-			"W03-12: Over pressurization: Injector port 12",
-			"W04: Engine temperature anomaly",
-			"W05: Oxidizer weight loss",
-			"W06: Propellant weight loss",
-			"W07: LOX flow rate anomaly",
-			"W08: RP Flow rate anomaly",
-			"W09-1: Solenoid #1 actuation failed",
-			"W09-2: Solenoid #2 actuation failed",
-			"W09-3: Solenoid #3 actuation failed",
-			"W09-4: Solenoid #4 actuation failed",
-			"W09-5: Solenoid #5 actuation failed",
-			"W09-6: Solenoid #6 actuation failed",
-			"W09-7: Solenoid #7 actuation failed",
-			"W09-8: Solenoid #8 actuation failed",
-			"W09-9: Solenoid #9 actuation failed",
-			"W09-10: Solenoid #10 actuation failed",
-			"W09-11: Solenoid #11 actuation failed",
-			"W09-12: Solenoid #12 actuation failed",
-			"W10: Power rail anomaly",
-			"W11: Electronics overheating"};
+			"WO3: Under pressurization: Propellant",
+			"W04: Under pressurization: Oxidizer",
+			"W05: low K bottle pressure / replace K bottle",
+			"W06: LOX temperature too high at T-OX-390",
+			"W07: LOX temperature too high at T-OX-391",
+			"W08: LOX temperature too high at T-OX-393"};
 
 	public void initialize(){
 		Label[] currLabel={c1,c2,c3,c4,c5,c6,c7,c8,c9,c10};
@@ -407,34 +349,36 @@ public class ControllerEC {
 	private void getErrors(){
 		Platform.runLater(new Runnable() {
 			public void run() {
+				String pathname = "";
 				try {
-					errorMessage = "Errors";
-					File file = new File("Error");
-					Scanner scanner = new Scanner(file);
-
-					char[] errors = scanner.next().toCharArray();
-					for( int i=0; i<errors.length; i++ ){
-						if( errors[i] == '1'){
-							if( errorMessage.length() != 0 ){
-								errorMessage += "\n";
-							}
-							errorMessage += errorMsgs[i];
+					errorMessage = "Errors\n";
+					for(int i = 0; i < errorMsgs.length; i++) {
+						pathname = "E" + (i /10 == 0 ? "0" : "") + (i+1);
+						Scanner scanner = new Scanner(new File(pathname));
+						if (scanner.nextInt() == 1) {
+							errorMessage += errorMsgs[i] + "\n";
 						}
+						scanner.close();
 					}
 
-					warningMessage= "\n\nWarnings";
-					char[] warnings = scanner.next().toCharArray();
-					for( int i=0; i<warnings.length; i++ ){
-						if( warnings[i] == '1' ){
-							warningMessage += "\n";
-							warningMessage += warningMsgs[i];
+					warningMessage = "Warnings";
+					for (int i = 0; i < warningMsgs.length; i++) {
+						pathname = "W" + (i / 10 == 0 ? "0" : "") + (i+1);
+						Scanner scanner = new Scanner(new File(pathname));
+						if (scanner.nextInt() ==	 1) {
+							warningMessage += warningMsgs[i] + "\n";
 						}
+						scanner.close();
 					}
 
-					scanner.close();
-					errorArea.setText(errorMessage + warningMessage);
-				} catch(Exception e) {
-					System.out.println("error reading from errors file");
+					errorArea.setText(errorMessage + "\n" + warningMessage);
+				} catch (FileNotFoundException e) {
+					System.out.println("File not found: " + pathname);
+				} catch (NoSuchElementException e) {
+
+					// can be caused by the file being written to while attempting to read
+					System.out.println("Unable to read file: " + pathname);
+
 				}
 			}
 		});

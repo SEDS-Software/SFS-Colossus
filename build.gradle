@@ -40,6 +40,8 @@ build.finalizedBy(rmtmp)
 task post(type: Delete) {
 	delete 'MARCO1'
 	def tree = fileTree("${rootDir}")
+	tree.include 'E*'
+	tree.include 'W*'
 	tree.include 'Battery'
 	tree.include 'PT*'
 	tree.include 'T*'

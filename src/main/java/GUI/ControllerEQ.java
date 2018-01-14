@@ -16,7 +16,7 @@ import javafx.util.Duration;
 import java.io.*;
 import java.util.*;
 
-public class ControllerEC {
+public class ControllerEQ {
 
 	//Initialize the current valve state labels
 	@FXML private Label c1;
@@ -43,7 +43,7 @@ public class ControllerEC {
 	@FXML private Label s9;
 	@FXML private Label s10;
 
-	//Initialize the Buttons used to control the Exec Cue
+	//Initialize the Buttons used to control the Exec Queue
 	@FXML private Button abort;
 	@FXML private Button next;
 	@FXML private Button standByBut;
@@ -154,6 +154,9 @@ public class ControllerEC {
 			"W07: LOX temperature too high at T-OX-391",
 			"W08: LOX temperature too high at T-OX-393"};
 
+	// thread sleep time (in milliseconds)
+	private final int SLEEP_TIME = 100;
+
 	public void initialize(){
 		Label[] currLabel={c1,c2,c3,c4,c5,c6,c7,c8,c9,c10};
 		Label[] seqLabel={s0,s1,s2,s3,s4,s5,s6,s7,s8, s9, s10};
@@ -182,7 +185,7 @@ public class ControllerEC {
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				if (timer.getText().equals("0")) {
 					ecState= "testing";
-                    next1.setText("Start");
+					next1.setText("Start");
 					next.setDisable(true);
 
 					File fnew = new File("Triggered");
@@ -215,7 +218,7 @@ public class ControllerEC {
 				getErrors();
 				displaySeqStage();
 				try {
-					Thread.sleep(100);
+					Thread.sleep(SLEEP_TIME);
 				} catch (Exception e) {
 					System.out.println("sleep error");
 				}
@@ -383,11 +386,11 @@ public class ControllerEC {
 						scanner.close();
 					}
 
-					warningMessage = "Warnings";
+					warningMessage = "Warnings\n";
 					for (int i = 0; i < warningMsgs.length; i++) {
 						pathname = "W" + (i / 10 == 0 ? "0" : "") + (i+1);
 						Scanner scanner = new Scanner(new File(pathname));
-						if (scanner.nextInt() ==	 1) {
+						if (scanner.nextInt() == 1) {
 							warningMessage += warningMsgs[i] + "\n";
 						}
 						scanner.close();
@@ -442,13 +445,13 @@ public class ControllerEC {
 	}
 
 	public void displaySeqStage(){
-	    int currStage = getSeqStage();
+		int currStage = getSeqStage();
 		if(ecState == "testing" && currStage != seqStage){
 			Label[] seqLabel = {s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10}; // holds the labels for the HotFire Sequence
 			Label[] currLabel = {c1, c2, c3, c4, c5, c6, c7, c8, c9, c10}; // holds labels for current valve states
 
 			currMode.setText("Hot Fire");
-            seqStage = currStage;
+			seqStage = currStage;
 
 			if( currGreen != null ){
 				currGreen.setStyle("-fx-background-color: GREY");
@@ -492,11 +495,11 @@ public class ControllerEC {
 	}
 
 	public void hotfire(){
-        if (ecState.equals("standby")) { //if the button is clicked in standby
-            next.setDisable(false);
-            ecState= "preCount";
-        }
-    }
+		if (ecState.equals("standby")) { //if the button is clicked in standby
+			next.setDisable(false);
+			ecState= "preCount";
+		}
+	}
 
 	/**
 	 * Controls the next button functionality.

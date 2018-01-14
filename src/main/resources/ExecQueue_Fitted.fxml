@@ -10,7 +10,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1200.0" prefWidth="1600.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ControllerEC">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1200.0" prefWidth="1600.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ControllerEQ">
    <children>
       <Button fx:id="next" layoutX="1246.0" layoutY="954.0" mnemonicParsing="false" onMouseClicked="#nextState" onMouseEntered="#nextEntered" onMouseExited="#nextExited" prefHeight="142.0" prefWidth="271.0" stylesheets="@nextBut.css" textFill="WHITE">
          <font>
@@ -285,7 +285,7 @@
          </font>
       </Label>
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="185.0" layoutX="1517.0" layoutY="933.0" stroke="BLACK" strokeType="INSIDE" width="198.0" />
-      <Label layoutX="602.0" layoutY="24.0" prefHeight="147.0" prefWidth="697.0" text="Execution Cue" textFill="WHITE">
+      <Label layoutX="602.0" layoutY="24.0" prefHeight="147.0" prefWidth="697.0" text="Execution Queue" textFill="WHITE">
          <font>
             <Font size="93.0" />
          </font>

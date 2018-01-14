@@ -6,13 +6,8 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
-import java.util.Set;
+import java.io.*;
+import java.util.*;
 
 /**
  * Controls the PNID screen.
@@ -119,11 +114,11 @@ public class ControllerPNID {
 	private void initialize() {
 
 		// initializes the label sets--must be done here because of how the FXML initializes the labels
-		psysLabels = new HashSet<>();
+		psysLabels = new LinkedHashSet<>();
 		Label[] PTLabels = {PT120, PT121, PT1221, PT1222, PT123, PT220, PT221, PT222, PT223, PT321, PT322, PT323,
 				PT420, PT421};
 		psysLabels.addAll(Arrays.asList(PTLabels));
-		temperatureLabels = new HashSet<>();
+		temperatureLabels = new LinkedHashSet<>();
 		Label[] TLabels = {T290, T291, T292, T293, T390, T391, T392, T393};
 		temperatureLabels.addAll(Arrays.asList(TLabels));
 
@@ -217,9 +212,10 @@ public class ControllerPNID {
 
 		// iterates through the fuel tank files and updates the fuel labels
 		File file = null;
+		Scanner scanner = null;
 		try {
 			file = new File("Tank_Fuel_1");
-			Scanner scanner = new Scanner(file);
+			scanner = new Scanner(file);
 			double funLevel707 = scanner.nextDouble() / 100;
 			if (funLevel707 != prevLevel707) {
 				lox707.setLevel(funLevel707);
@@ -250,15 +246,15 @@ public class ControllerPNID {
 	 */
 	private void getState() {
 		for (int i = 0; i < valveFiles.length; i++) {
+			File file = new File(valveFiles[i]);
 			try {
-				File file = new File("" + valveFiles[i]);
 				Scanner scanner = new Scanner(file);
 				valveStates[i] = (scanner.nextDouble() > 0);
 				scanner.close();
 			} catch (FileNotFoundException e) {
-				System.out.println("File not found: " + valveFiles[i]);
+				System.out.println("File not found: " + file.getName());
 			} catch (NoSuchElementException e) {
-				System.out.println("Unable to read file: " + valveFiles[i]);
+				System.out.println("Unable to read file: " + file.getName());
 			}
 		}
 	}

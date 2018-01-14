@@ -1,6 +1,7 @@
 package sim;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -17,11 +18,13 @@ public class random {
 	 */
 	public static void main(String args[]) {
 		String directory = System.getProperty("user.dir");
-		directory = directory.substring(0, directory.indexOf("build/classes/java"));
+		String sep = File.separator;
+		int dirIndex = directory.indexOf("build" + File.separator + "classes" + File.separator + "java");
+		directory = directory.substring(0, dirIndex);
 
 		// total number of each item
 		final int ERRORS = 10;
-		final int WARNINGS = 160;
+		final int WARNINGS = 16;
 		final int PT = 14;
 
 		while (true) {
@@ -36,7 +39,6 @@ public class random {
 				emptyN -= Math.log10(i) % 1 == 0 ? 1 : 0;
 				String empty = new String(new char[emptyN]).replace('\0', '0');
 				String pathname = directory + "E" + empty + i;
-				System.out.println(pathname);
 				writeFile(pathname, 2, true);
 			}
 			for (int i = 1; i <= WARNINGS; i++) {
@@ -45,7 +47,6 @@ public class random {
 				emptyN -= Math.log10(i) % 1 == 0 ? 1 : 0;
 				String empty = new String(new char[emptyN]).replace('\0', '0');
 				String pathname = directory + "W" + empty + i;
-				System.out.println(pathname);
 				writeFile(pathname, 2, true);
 			}
 

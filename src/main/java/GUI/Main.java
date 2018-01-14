@@ -64,8 +64,8 @@ public class Main extends Application {
 
 
 		Stage newstage = new Stage();
-		newstage.setTitle("Executive Cue");
-		loader = new FXMLLoader(Main.class.getResource("/ExecCue_Fitted.fxml"));
+		newstage.setTitle("Executive Queue");
+		loader = new FXMLLoader(Main.class.getResource("/ExecQueue_Fitted.fxml"));
 		Pane newpane2 = (Pane)loader.load();
 
 		newpane2.setScaleX(EC_SCALE);

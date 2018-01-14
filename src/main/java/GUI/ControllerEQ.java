@@ -67,7 +67,6 @@ public class ControllerEQ {
 
 	private double next1Orig; // Used for the start button animation
 
-
 	private boolean[] currState = {true,true,false,true,false,false,true,true, false, false};
 	// tracks the current state of the Valves. Read of file and stored in this array
 
@@ -96,23 +95,6 @@ public class ControllerEQ {
 
 	private String errorValveString = ""; //holds the errors when valves are in incorrect states
 
-
-	/*
-	Mapping of the Valves to their index in the array
-	Valve 150 = 0
-	Valve 151 = 1
-	Valve 250 = 2
-	Valve 251 = 3
-	Valve 252 = 4
-	Valve 253 = 5
-	Valve 350 = 6
-	Valve 351 = 7
-	Valve 352 = 8
-	Valve 353 = 9
-	*/
-	private String [] valveName = {"Valve 150", "Valve 151", "Valve 250", "Valve 251", "Valve 252", "Valve 253", "Valve 350",
-			"Valve 351", "Valve 352", "Valve 353"}; //Used to modify Label text with open and closed
-
 	private int seqStage = 0; // Holds the current stage of the HotFire Sequence tracking
 
 	// The states of all valves at each stage of the HotFire sequence
@@ -131,9 +113,8 @@ public class ControllerEQ {
 	//Holds all of the valve states for each sequence stage
 	private boolean [][] stageStates = {stage0, stage1, stage2, stage3, stage4, stage5, stage6, stage7, stage8, stage9, stage10};
 
-	//error from DAQ message string
+	// builds the DAQ error and warning messages
 	private String errorMessage = "";
-	// warning from DAQ message string
 	private String warningMessage = "";
 
 	//Calibration count
@@ -227,6 +208,10 @@ public class ControllerEQ {
 
 	}
 
+	public String expand(String str) {
+		return "Valve " + str.substring("Val".length());
+	}
+
 	/**
 	 * resets the GUI to standby mode
 	 */
@@ -238,7 +223,7 @@ public class ControllerEQ {
 
 		//Iterates through the valve labels and sets them all to their initial states of closed
 		for (int i=0; i<currLabel.length; i++) {
-			currLabel[i].setText(valveName[i] + ": Closed");
+			currLabel[i].setText(expand(fileNames[i]) + ": Closed");
 			currLabel[i].setStyle("-fx-background-color: GREY");
 		}
 
@@ -355,9 +340,9 @@ public class ControllerEQ {
 				for (int i = 0; i < currState.length; i++) {
 
 					if (currState[i])
-						currLabel[i].setText(valveName[i] + ": Open");
+						currLabel[i].setText(expand(fileNames[i]) + ": Open");
 					else
-						currLabel[i].setText(valveName[i] + ": Closed");
+						currLabel[i].setText(expand(fileNames[i]) + ": Closed");
 
 					if (currState[i] != stageStates[seqStage][i])
 						currLabel[i].setStyle("-fx-background-color: RED");
@@ -576,7 +561,7 @@ public class ControllerEQ {
 	 * @param indexOfValve represents the name of the valve that has an error position
 	 */
 	private void addValveError( int indexOfValve ){
-		errorValveString +=  "Warning: " + valveName[indexOfValve] +" not in correct state\n";
+		errorValveString +=  "Warning: " + expand(fileNames[indexOfValve]) +" not in correct state\n";
 	}
 
 	public void abortPressed() {

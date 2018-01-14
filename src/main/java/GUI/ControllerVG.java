@@ -12,8 +12,13 @@ import javafx.scene.paint.Stop;
 import java.util.*;
 import java.io.*;
 
-
+/**
+ * Controls the VG screen.
+ */
 public class ControllerVG {
+
+	// initializes the psys gauges (incl. the tank psys gauges at #13/14)
+	private Set<Gauge> psysGauges;
 	@FXML private Label title;
 	@FXML private Gauge psys1;
 	@FXML private Gauge psys2;
@@ -29,15 +34,16 @@ public class ControllerVG {
 	@FXML private Gauge psys12;
 	@FXML private Gauge psys13;
 	@FXML private Gauge psys14;
+
 	@FXML private FunLevel Tank_Fuel_1;
 	@FXML private Gauge Tank_Temp_1;
 	@FXML private FunLevel Tank_Fuel_2;
 	@FXML private Gauge Tank_Temp_2;
 	@FXML private Gauge battery;
 	@FXML private Gauge Thrust_Gauge;
-	private double thrustVal;
 
-	private Set<Gauge> psysGauges;
+	// tracks the thrust value
+	private double thrustVal;
 
 	// thread sleep time (in milliseconds)
 	private final int SLEEP_TIME = 100;
@@ -48,9 +54,14 @@ public class ControllerVG {
 	private XYChart.Series<String, Number> series1 = new XYChart.Series<>();
 	private XYChart.Series<String, Number> series2 = new XYChart.Series<>();
 	private XYChart.Series<String, Number> seriesThrust = new XYChart.Series<>();
-	private int chartTime = 12;
+
+	// the charts' x-positions
 	private int chartCount = 0;
 
+
+	/**
+	 * Initializes the necessary variables and runs the VG in its own thread indefinitely.
+	 */
 	@FXML
 	private void initialize() {
 
@@ -65,10 +76,12 @@ public class ControllerVG {
 		stops.add(new Stop(0.50, Color.YELLOW));
 		stops.add(new Stop(1.00, Color.GREEN));
 
-//		Tank_Fuel_1.setGradientBarEnabled(true);
-//		Tank_Fuel_1.setGradientBarStops(stops);
-//		Tank_Fuel_2.setGradientBarEnabled(true);
-//		Tank_Fuel_2.setGradientBarStops(stops);
+/*
+		Tank_Fuel_1.setGradientBarEnabled(true);
+		Tank_Fuel_1.setGradientBarStops(stops);
+		Tank_Fuel_2.setGradientBarEnabled(true);
+		Tank_Fuel_2.setGradientBarStops(stops);
+*/
 
 		// battery in the top right corner
 		battery.setGradientBarEnabled(true);
@@ -143,11 +156,16 @@ public class ControllerVG {
 		}).start();
 	}
 
+	/**
+	 * Updates the gauge values and chart.
+	 */
 	@FXML
 	private void updateVal() {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
+
+				// iterates through and updates values for psys gauges
 				int i = 1;
 				for (Gauge psysGauge : psysGauges) {
 					File file = new File("PT" + i++);
@@ -165,6 +183,7 @@ public class ControllerVG {
 					}
 				}
 
+				// iterates through and updates values for misc gauges
 				File file = null;
 				Scanner scanner = null;
 				try {
@@ -208,9 +227,10 @@ public class ControllerVG {
 
 				}
 
+				// updates charts every second
 				chartCount++;
 				if (chartCount % 10 == 0) {
-					chartTime++;
+					int chartTime = (chartCount / 10) - 1;
 					int nthLast = 0;
 					Gauge[] arr = psysGauges.toArray(new Gauge[0]);
 

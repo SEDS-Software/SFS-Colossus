@@ -234,13 +234,13 @@ public class ControllerVG {
 					int nthLast = 0;
 					Gauge[] arr = psysGauges.toArray(new Gauge[0]);
 
-					double tank1Y = arr[arr.length - ++nthLast].getValue();
-					series1.getData().remove(0);
-					series1.getData().add(new XYChart.Data<>(Integer.toString(chartTime), tank1Y));
-
 					double tank2Y = arr[arr.length - ++nthLast].getValue();
 					series2.getData().remove(0);
 					series2.getData().add(new XYChart.Data<>(Integer.toString(chartTime), tank2Y));
+
+					double tank1Y = arr[arr.length - ++nthLast].getValue();
+					series1.getData().remove(0);
+					series1.getData().add(new XYChart.Data<>(Integer.toString(chartTime), tank1Y));
 
 					seriesThrust.getData().remove(0);
 					seriesThrust.getData().add(new XYChart.Data<>(Integer.toString(chartTime), Math.round(thrustVal)));

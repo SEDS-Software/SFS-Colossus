@@ -44,13 +44,13 @@ public class ControllerEQ {
 	@FXML private Label s10;
 
 	//Initialize the Buttons used to control the Exec Queue
-	@FXML private Button abort;
+	@FXML private Button abortButton;
 	@FXML private Button next;
 	@FXML private Button standByBut;
 	@FXML private Button caliBut;
 	@FXML private Button hotBut;
 
-	//Initialize the Animation labels for the abort button
+	//Initialize the Animation labels for the abortButton button
 	@FXML private Label abort1;
 	@FXML private Label abort2;
 	@FXML private Label abort3;
@@ -70,12 +70,10 @@ public class ControllerEQ {
 	private boolean[] currState = {true,true,false,true,false,false,true,true, false, false};
 	// tracks the current state of the Valves. Read of file and stored in this array
 
-	private String[] fileNames = {"Val150", "Val151", "Val250", "Val251", "Val252", "Val253", "Val350", "Val351", "Val352", "Val353"};
-	//Lists the names of the files to find the state of the valves
-
-
-	Label[] currLabel={c1,c2,c3,c4,c5,c6,c7,c8,c9,c10}; //List of the current states of the Valves
 	Label[] seqLabel ={s0,s1,s2,s3,s4,s5,s6,s7,s8, s9, s10};  //List of the HotFire Sequence Stages and what is happening
+
+	private Map<Integer, Label> valves;
+	private Map<String, Label> sequences;
 
 	private String ecState= "standby"; //Tells mode we are in, standby,preCount, countdown, testing are the only three values
 
@@ -137,26 +135,32 @@ public class ControllerEQ {
 
 	// thread sleep time (in milliseconds)
 	private final int SLEEP_TIME = 100;
+	private Integer[] valveNums = {150, 151, 250, 251, 252, 253, 350, 351, 352, 353};
+
+	private boolean abort = false;
 
 	public void initialize(){
-		Label[] currLabel={c1,c2,c3,c4,c5,c6,c7,c8,c9,c10};
-		Label[] seqLabel={s0,s1,s2,s3,s4,s5,s6,s7,s8, s9, s10};
 
-		for (int i=0; i<currLabel.length; i++) {
-			String labName = currLabel[i].getText();
-			currState[i]=labName.contains("Open"); //set the boolean[] currState to the state of each valve
+		Label[] seqLabel={s0,s1,s2,s3,s4,s5,s6,s7,s8, s9, s10};
+		Label[] valveLabels = {c1, c2, c3, c4, c5, c6, c7, c8, c9, c10};
+		valves = new LinkedHashMap<>();
+		for (int i = 0; i < valveNums.length; i++) {
+			valves.put(valveNums[i], valveLabels[i]);
+			currState[i] = valveLabels[i].getText().toLowerCase().contains("open");
 		}
+
 		reset();
 
 		next1Orig = next1.getLayoutX();
 
-		File fnew = new File("MARCO1");
-		String line1 = "0";
+		// MARCO1 contains the abort value
+		File abortFile = new File("MARCO1");
 		try {
-			FileWriter fw = new FileWriter(fnew, false);
-			fw.write(line1);
-			fw.close();
+			BufferedWriter writer = new BufferedWriter(new FileWriter(abortFile));
+			writer.write(abort ? "1" : "0");
+			writer.close();
 		} catch (IOException e) {
+			System.err.println("Unable to write to abort file.");
 			e.printStackTrace();
 		}
 
@@ -165,7 +169,7 @@ public class ControllerEQ {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				if (timer.getText().equals("0")) {
-					ecState= "testing";
+					ecState = "testing";
 					next1.setText("Start");
 					next.setDisable(true);
 
@@ -208,10 +212,6 @@ public class ControllerEQ {
 
 	}
 
-	public String expand(String str) {
-		return "Valve " + str.substring("Val".length());
-	}
-
 	/**
 	 * resets the GUI to standby mode
 	 */
@@ -223,7 +223,7 @@ public class ControllerEQ {
 
 		//Iterates through the valve labels and sets them all to their initial states of closed
 		for (int i=0; i<currLabel.length; i++) {
-			currLabel[i].setText(expand(fileNames[i]) + ": Closed");
+			currLabel[i].setText(valveNums[i] + ": Closed");
 			currLabel[i].setStyle("-fx-background-color: GREY");
 		}
 
@@ -314,12 +314,14 @@ public class ControllerEQ {
 	 * Opens the files and grabs the current open/closed state of the valves
 	 */
 	private void readValveState(){
-		for(int i = 0; i<fileNames.length; i++) {
+		for(int i = 0; i<valveNums.length; i++) {
 			try{
-				File file = new File("" +fileNames[i]);
+				File file = new File("Val" +valveNums[i]);
 				Scanner scanner = new Scanner(file);
 
 				currState[i]= (scanner.nextDouble() > 0);
+				if (currState[i])
+					System.out.println("\n\n\n\n" + valveNums[i] + "\n\n\n\n");
 				scanner.close();
 
 			}catch(Exception e) {
@@ -333,22 +335,20 @@ public class ControllerEQ {
 	 */
 	private void getCurrState(){
 		readValveState();
-		Label[] currLabel = {c1, c2, c3, c4, c5, c6, c7, c8, c9, c10};
-
+		Iterator<Label> labelIter = valves.values().iterator();
 		Platform.runLater(new Runnable() {
 			public void run() {
 				for (int i = 0; i < currState.length; i++) {
+					Label currLabel = labelIter.next();
+					System.out.println(labelIter.hasNext());
 
-					if (currState[i])
-						currLabel[i].setText(expand(fileNames[i]) + ": Open");
-					else
-						currLabel[i].setText(expand(fileNames[i]) + ": Closed");
+					String valveState = "Valve " + valveNums[i] + ": " + (currState[i] ? "Open" : "Closed");
+					currLabel.setText(valveState);
 
-					if (currState[i] != stageStates[seqStage][i])
-						currLabel[i].setStyle("-fx-background-color: RED");
-					else
-						currLabel[i].setStyle("-fx-background-color: GREEN");
+					String style = currState[i] != stageStates[seqStage][i] ? "RED" : "GREEN";
+					currLabel.setStyle("-fx-background-color: " + style);
 				}
+				System.out.println(labelIter.hasNext());
 			}
 		});
 	}
@@ -561,7 +561,7 @@ public class ControllerEQ {
 	 * @param indexOfValve represents the name of the valve that has an error position
 	 */
 	private void addValveError( int indexOfValve ){
-		errorValveString +=  "Warning: " + expand(fileNames[indexOfValve]) +" not in correct state\n";
+		errorValveString +=  "Warning: Valve " + valveNums[indexOfValve] + " not in correct state\n";
 	}
 
 	public void abortPressed() {

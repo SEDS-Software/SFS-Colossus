@@ -174,7 +174,9 @@ public class ControllerPNID {
 					File file = new File("PT" + i++);
 					try {
 						Scanner scanner = new Scanner(file);
-						label.setText(Long.toString(Math.round(scanner.nextDouble())));
+						double readVal = scanner.nextDouble();
+						double linTrans = (readVal - 0.5) * (1500.0/4.0);
+						label.setText(Long.toString(Math.round(linTrans)));
 						scanner.close();
 					} catch (FileNotFoundException e) {
 						System.out.println("File not found: " + file.getName());
@@ -203,7 +205,7 @@ public class ControllerPNID {
 					} catch (NoSuchElementException e) {
 
 						// can be caused by the file being written to while attempting to read
-						System.out.println("Unable to read file: PT" + (i-1));
+						System.out.println("Unable to read file: T" + (i-1));
 
 					}
 				}

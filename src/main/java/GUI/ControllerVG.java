@@ -171,7 +171,9 @@ public class ControllerVG {
 					File file = new File("PT" + i++);
 					try {
 						Scanner scanner = new Scanner(file);
-						psysGauge.setValue(Math.round(scanner.nextDouble()));
+						double readVal = scanner.nextDouble();
+						double linTrans = (readVal - 0.5) * (1500.0/4.0);
+						psysGauge.setValue(Math.round(linTrans));
 						scanner.close();
 					} catch (FileNotFoundException e) {
 						System.out.println("File not found: " + file.getName());

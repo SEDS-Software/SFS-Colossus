@@ -361,7 +361,7 @@ public class ControllerEQ {
 			public void run() {
 				String pathname = "";
 				try {
-					errorMessage = "Errors\n";
+					errorMessage = "";
 					for(int i = 0; i < errorMsgs.length; i++) {
 						pathname = "E" + (i /10 == 0 ? "0" : "") + (i+1);
 						Scanner scanner = new Scanner(new File(pathname));
@@ -370,8 +370,11 @@ public class ControllerEQ {
 						}
 						scanner.close();
 					}
+					if (errorMessage.length() > 0) {
+						errorMessage = "Errors\n" + errorMessage + "\n";
+					}
 
-					warningMessage = "Warnings\n";
+					warningMessage = "";
 					for (int i = 0; i < warningMsgs.length; i++) {
 						pathname = "W" + (i / 10 == 0 ? "0" : "") + (i+1);
 						Scanner scanner = new Scanner(new File(pathname));
@@ -380,8 +383,11 @@ public class ControllerEQ {
 						}
 						scanner.close();
 					}
+					if (warningMessage.length() > 0) {
+						warningMessage = "Warnings\n" + warningMessage;
+					}
 
-					errorArea.setText(errorMessage + "\n" + warningMessage);
+					errorArea.setText(errorMessage + warningMessage);
 				} catch (FileNotFoundException e) {
 					System.out.println("File not found: " + pathname);
 				} catch (NoSuchElementException e) {

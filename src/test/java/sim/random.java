@@ -52,7 +52,7 @@ public class random {
 
 			// random readings for the pressure transducers
 			for (int i = 1; i <= PT; i++) {
-				writeFile(directory + "PT" + i, 1600, false);
+				writeFile(directory + "PT" + i, 4, false);
 			}
 
 			// random readings for the valve states

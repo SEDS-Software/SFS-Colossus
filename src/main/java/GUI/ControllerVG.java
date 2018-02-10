@@ -173,6 +173,9 @@ public class ControllerVG {
 						Scanner scanner = new Scanner(file);
 						double readVal = scanner.nextDouble();
 						double linTrans = (readVal - 0.5) * (1500.0/4.0);
+						if (linTrans < 0) {
+							linTrans = 0;
+						}
 						psysGauge.setValue(Math.round(linTrans));
 						scanner.close();
 					} catch (FileNotFoundException e) {

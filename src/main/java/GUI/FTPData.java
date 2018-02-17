@@ -1,34 +1,17 @@
-import org.apache.commons.net.PrintCommandListener;
-import org.apache.commons.net.ftp.FTP;
+package GUI;
+
 import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPHTTPClient;
-import org.apache.commons.net.ftp.FTPClientConfig;
-import org.apache.commons.net.ftp.FTPConnectionClosedException;
-import org.apache.commons.net.ftp.FTPFile;
-import org.apache.commons.net.ftp.FTPReply;
-import org.apache.commons.net.ftp.FTPSClient;
-import org.apache.commons.net.io.CopyStreamEvent;
-import org.apache.commons.net.io.CopyStreamListener;
-import org.apache.commons.net.util.TrustManagerUtils;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.lang.Runnable;
-import java.util.LinkedList;
-import java.util.ListIterator;
-import java.util.StringTokenizer;
 
 public class FTPData implements Runnable{
 	
 	public static int PBV150, PBV151, 
 				PBV250, PBV251, PBV252, PBV253, 
 				PBV350, PBV351, PBV352, PBV353;
-	
-	public static InputStream in;
-	public static BufferedInputStream inbf;
-	
+
 	public static float T290, T291, T292, T293, 
 					T390, T391, T392, T393;
 	
@@ -38,21 +21,15 @@ public class FTPData implements Runnable{
 					PT420, PT421;
 	
 	private FTPClient client;
-	
-	private LinkedList<Byte> values;
-	
-	private static boolean connected = false;
+
+	/**
+	 * Sets up the FTP communication.
+	 */
+	public FTPData() {}
 	
 	/**
-	 * Sets up the FTP communication
+	 * Establishes the FTP communication with the DAQ FTP server.
 	 */
-	public FTPData() {
-	}
-	
-	/**
-	 * Establishes the FTP communication with the DAQ FTP server
-	 */
-	
 	public void run() {
 		makeConnection();
 	}
@@ -73,15 +50,12 @@ public class FTPData implements Runnable{
 //				System.out.println(file.getName());
 //			}
 			
-
-			
-			
 			while(true) {
 				try {
 					Thread.sleep(250);
 					updateValues();
 				} catch (InterruptedException e) {
-					//e.printStackTrace();
+					e.printStackTrace();
 				}
 			}
 			
@@ -96,36 +70,26 @@ public class FTPData implements Runnable{
 	
 	
 	public void updateValues() {
-		Thread temp = (new Thread(new updateValues(client)));
+		Thread temp = (new Thread(new Updater(client)));
 		temp.start();	
 	}
 	
-	/**
-	 * Updates the values of the instance variables
-	 */
-	
 }
-class updateValues implements Runnable{
-	
-	LinkedList<Byte> values = new LinkedList<Byte>();
+
+/**
+ * Updates the values of the instance variables.
+ */
+class Updater implements Runnable {
 	
 	FTPClient client;
 	
-	public updateValues(FTPClient client) {
+	public Updater(FTPClient client) {
 		this.client = client;
-				
 	}
-	
-	
-	
+
 	public void run() {
-		byte[] result = null;
-		
-		
 		try {
-			result = null;
-			
-			
+
 			byte buffer[] = new byte[4096];
 			int readCount;
 			int length = 0;
@@ -138,17 +102,16 @@ class updateValues implements Runnable{
 			readCount = inbf.read(buffer);
 			String string = "";
 			
-			
 			for(int i = 0; i < readCount - 1; i ++) {
-				char lmao = (char) buffer[i];
-				string += lmao;
+				string += (char) buffer[i];
 			}
 			
-			String[] allData = string.split("\\s");
-			String[] data = allData[1].split("\\,");
-			int i = 0;
+			String[] allData = string.split("\\s"), data;
+			int i;
 
-			
+			data = allData[1].split("\\,");
+
+			i = 0;
 			FTPData.T290 = Float.parseFloat(data[i++]);
 			FTPData.T291 = Float.parseFloat(data[i++]);
 			FTPData.T292 = Float.parseFloat(data[i++]);
@@ -159,7 +122,6 @@ class updateValues implements Runnable{
 			FTPData.T393 = Float.parseFloat(data[i++]);
 			
 			i = 0;
-			
 			FTPData.PBV150 = allData[0].charAt(i++) - 48;
 			FTPData.PBV151 = allData[0].charAt(i++) - 48;
 			FTPData.PBV250 = allData[0].charAt(i++) - 48;
@@ -171,10 +133,9 @@ class updateValues implements Runnable{
 			FTPData.PBV352 = allData[0].charAt(i++) - 48;
 			FTPData.PBV353 = allData[0].charAt(i++) - 48;
 			
-			
 			data = allData[2].split("\\,");
+
 			i = 0;
-			
 			FTPData.PT120 = Float.parseFloat(data[i++]);
 			FTPData.PT121 = Float.parseFloat(data[i++]); 
 			FTPData.PT122 = Float.parseFloat(data[i++]);
@@ -189,17 +150,8 @@ class updateValues implements Runnable{
 			FTPData.PT420 = Float.parseFloat(data[i++]);
 			FTPData.PT421 = Float.parseFloat(data[i++]);
 		
-			
-			
-		}catch (IOException e) {
-			//e.printStackTrace();
-		}catch(Exception e) {
-			//e.printStackTrace();
-		}finally {
-			
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
-		
 	}
-	
-	
 }

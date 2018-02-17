@@ -71,7 +71,7 @@ public class ControllerEQ {
 	private boolean[] currState = {true,true,false,true,false,false,true,true, false, false};
 	// tracks the current state of the Valves. Read of file and stored in this array
 
-	private String[] fileNames = {"Val150", "Val151", "Val250", "Val251", "Val252", "Val253", "Val350", "Val351", "Val352", "Val353"};
+	private String[] fileNames = {"PBV150", "PBV151", "PBV250", "PBV251", "PBV252", "PBV253", "PBV350", "PBV351", "PBV352", "PBV353"};
 	//Lists the names of the files to find the state of the valves
 
 
@@ -110,8 +110,8 @@ public class ControllerEQ {
 	Valve 352 = 8
 	Valve 353 = 9
 	*/
-	private String [] valveName = {"Valve 150", "Valve 151", "Valve 250", "Valve 251", "Valve 252", "Valve 253", "Valve 350",
-			"Valve 351", "Valve 352", "Valve 353"}; //Used to modify Label text with open and closed
+	private String [] valveName = {"PBV150", "PBV151", "PBV250", "PBV251", "PBV252", "PBV253", "PBV350",
+			"PBV351", "PBV352", "PBV353"}; //Used to modify Label text with open and closed
 
 	private int seqStage = 0; // Holds the current stage of the HotFire Sequence tracking
 
@@ -155,7 +155,7 @@ public class ControllerEQ {
 			"W08: LOX temperature too high at T-OX-393"};
 
 	// thread sleep time (in milliseconds)
-	private final int SLEEP_TIME = 100;
+	private final int SLEEP_TIME = 500;
 
 	public void initialize(){
 		Label[] currLabel={c1,c2,c3,c4,c5,c6,c7,c8,c9,c10};
@@ -220,7 +220,7 @@ public class ControllerEQ {
 				try {
 					Thread.sleep(SLEEP_TIME);
 				} catch (Exception e) {
-					System.out.println("sleep error");
+//					System.out.println("sleep error");
 				}
 			}
 		}).start();
@@ -329,14 +329,11 @@ public class ControllerEQ {
 	 * Opens the files and grabs the current open/closed state of the valves
 	 */
 	private void readValveState(){
+		System.out.println("350 " + FTPData.PBVs.get("PBV350"));
+		System.out.println("250 " + FTPData.PBVs.get("PBV250"));
 		for(int i = 0; i<fileNames.length; i++) {
 			try{
-				File file = new File("" +fileNames[i]);
-				Scanner scanner = new Scanner(file);
-
-				currState[i]= (scanner.nextDouble() > 0);
-				scanner.close();
-
+				currState[i]= FTPData.PBVs.get(fileNames[i]) > 0;
 			}catch(Exception e) {
 				//do nothing
 			}
@@ -404,11 +401,11 @@ public class ControllerEQ {
 
 					errorArea.setText(errorMessage + warningMessage);
 				} catch (FileNotFoundException e) {
-					System.out.println("File not found: " + pathname);
+//					System.out.println("File not found: " + pathname);
 				} catch (NoSuchElementException e) {
 
 					// can be caused by the file being written to while attempting to read
-					System.out.println("Unable to read file: " + pathname);
+//					System.out.println("Unable to read file: " + pathname);
 
 				}
 			}
@@ -428,7 +425,7 @@ public class ControllerEQ {
 			fw.write(line1);
 			fw.close();
 		} catch (IOException e) {
-			System.out.println("error Writing to sequence Stage");
+//			System.out.println("error Writing to sequence Stage");
 		}
 	}
 
@@ -445,7 +442,7 @@ public class ControllerEQ {
 			stageNum = scanner.nextInt();
 			scanner.close();
 		}catch(Exception e) {
-			System.out.println("error reading from sequence stage");
+//			System.out.println("error reading from sequence stage");
 		}
 		return stageNum;
 	}

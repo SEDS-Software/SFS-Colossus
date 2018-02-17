@@ -10,7 +10,7 @@ public class FTPDriverExample {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			System.out.println("waefofeawohofae " + FTPData.PBV350);
+			System.out.println("waefofeawohofae " + FTPData.PBVs.get("PBV350"));
 		}
 	}
 }

@@ -1,6 +1,5 @@
 package GUI;
 
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,24 +13,21 @@ public class Main extends Application {
 	private static final double VG_SCALE = .8;
 	private static final double EC_SCALE = .8;
 
-
 	private static final double PNID_OFFSET = 2;
 	private static final double VG_OFFSET = 1.8;
 	private static final double EC_OFFSET = 1.8;
 
-
 	private static final double screenWidth = 1280;
 	private static final double screenHeight = 720;
 
-	public Main() {
-	}
+	public Main() {}
 
 	@Override
-	public void start(Stage primaryStage) throws Exception{
-
+	public void start(Stage primaryStage) throws Exception {
+		(new Thread(new FTPData())).start();
 
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource("/VG_Fitted.fxml"));
-		Pane pane = (Pane)loader.load();
+		Pane pane = (Pane) loader.load();
 		ControllerVG contr1 = loader.getController();
 		//ControllerVG contr1 = new ControllerVG();
 		//contr1.setMain(this); //give controller access to main methods such as updateChart
@@ -78,7 +74,6 @@ public class Main extends Application {
 		newstage.setFullScreen(true);
 		newstage.show();
 	}
-
 
 	public static void main(String[] args) {
 		launch(args);

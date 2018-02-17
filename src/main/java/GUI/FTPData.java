@@ -5,21 +5,14 @@ import org.apache.commons.net.ftp.FTPClient;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.lang.Runnable;
+import java.util.*;
 
-public class FTPData implements Runnable{
-	
-	public static int PBV150, PBV151, 
-				PBV250, PBV251, PBV252, PBV253, 
-				PBV350, PBV351, PBV352, PBV353;
+public class FTPData implements Runnable {
 
-	public static float T290, T291, T292, T293, 
-					T390, T391, T392, T393;
-	
-	public static float PT120, PT121, PT122,
-					PT220, PT221, PT222, PT223,
-					PT320, PT321, PT322, PT323,
-					PT420, PT421;
-	
+	public static Map<String, Integer> PBVs = new TreeMap<>();
+	public static Map<String, Float> Temps = new TreeMap<>();
+	public static Map<String, Float> PTs = new TreeMap<>();
+
 	private FTPClient client;
 
 	/**
@@ -41,8 +34,8 @@ public class FTPData implements Runnable{
 			int reply;
 			System.out.println("about to connect");
 			client.connect("192.168.1.28");
-			reply = client.getReplyCode();
 			client.login("6", "6");
+			reply = client.getReplyCode();
 			System.out.println("REPLY CODE:\t"+reply);
 			client.cwd("hd0");
 
@@ -50,14 +43,14 @@ public class FTPData implements Runnable{
 //				System.out.println(file.getName());
 //			}
 			
-			while(true) {
+//			while(true) {
 				try {
-					Thread.sleep(250);
+					Thread.sleep(500);
 					updateValues();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-			}
+//			}
 			
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -68,12 +61,11 @@ public class FTPData implements Runnable{
 		}
 	}
 	
-	
 	public void updateValues() {
 		Thread temp = (new Thread(new Updater(client)));
 		temp.start();	
 	}
-	
+
 }
 
 /**
@@ -87,71 +79,92 @@ class Updater implements Runnable {
 		this.client = client;
 	}
 
-	public void run() {
+	public void run(){
+		while(true) {
+			try {
+				Thread.sleep(500);
+				updateValues();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void updateValues() {
+		long time = System.nanoTime();
 		try {
+			System.out.println("STarted TRY");
 
 			byte buffer[] = new byte[4096];
 			int readCount;
 			int length = 0;
-			
+
+
+			System.out.println("line 103");
 			InputStream in = client.retrieveFileStream("DATA");
 			BufferedInputStream inbf = new BufferedInputStream(in);
+			System.out.println("line 105");
 
 			client.completePendingCommand();
-			
+
+			System.out.println("line 109");
+
 			readCount = inbf.read(buffer);
 			String string = "";
 			
 			for(int i = 0; i < readCount - 1; i ++) {
 				string += (char) buffer[i];
 			}
-			
+
 			String[] allData = string.split("\\s"), data;
 			int i;
 
 			data = allData[1].split("\\,");
 
 			i = 0;
-			FTPData.T290 = Float.parseFloat(data[i++]);
-			FTPData.T291 = Float.parseFloat(data[i++]);
-			FTPData.T292 = Float.parseFloat(data[i++]);
-			FTPData.T293 = Float.parseFloat(data[i++]);
-			FTPData.T390 = Float.parseFloat(data[i++]);
-			FTPData.T391 = Float.parseFloat(data[i++]);
-			FTPData.T392 = Float.parseFloat(data[i++]);
-			FTPData.T393 = Float.parseFloat(data[i++]);
+			FTPData.Temps.put("T290", Float.parseFloat(data[i++]));
+			FTPData.Temps.put("T291", Float.parseFloat(data[i++]));
+			FTPData.Temps.put("T292", Float.parseFloat(data[i++]));
+			FTPData.Temps.put("T293", Float.parseFloat(data[i++]));
+			FTPData.Temps.put("T390", Float.parseFloat(data[i++]));
+			FTPData.Temps.put("T391", Float.parseFloat(data[i++]));
+			FTPData.Temps.put("T392", Float.parseFloat(data[i++]));
+			FTPData.Temps.put("T393", Float.parseFloat(data[i++]));
 			
 			i = 0;
-			FTPData.PBV150 = allData[0].charAt(i++) - 48;
-			FTPData.PBV151 = allData[0].charAt(i++) - 48;
-			FTPData.PBV250 = allData[0].charAt(i++) - 48;
-			FTPData.PBV251 = allData[0].charAt(i++) - 48;
-			FTPData.PBV252 = allData[0].charAt(i++) - 48;
-			FTPData.PBV253 = allData[0].charAt(i++) - 48;
-			FTPData.PBV350 = allData[0].charAt(i++) - 48;
-			FTPData.PBV351 = allData[0].charAt(i++) - 48;
-			FTPData.PBV352 = allData[0].charAt(i++) - 48;
-			FTPData.PBV353 = allData[0].charAt(i++) - 48;
-			
+			FTPData.PBVs.put("PBV150", allData[0].charAt(i++) - 48);
+			FTPData.PBVs.put("PBV151", allData[0].charAt(i++) - 48);
+			FTPData.PBVs.put("PBV250", allData[0].charAt(i++) - 48);
+			FTPData.PBVs.put("PBV251", allData[0].charAt(i++) - 48);
+			FTPData.PBVs.put("PBV252", allData[0].charAt(i++) - 48);
+			FTPData.PBVs.put("PBV253", allData[0].charAt(i++) - 48);
+			FTPData.PBVs.put("PBV350", allData[0].charAt(i++) - 48);
+			FTPData.PBVs.put("PBV351", allData[0].charAt(i++) - 48);
+			FTPData.PBVs.put("PBV352", allData[0].charAt(i++) - 48);
+			FTPData.PBVs.put("PBV353", allData[0].charAt(i++) - 48);
+
 			data = allData[2].split("\\,");
 
 			i = 0;
-			FTPData.PT120 = Float.parseFloat(data[i++]);
-			FTPData.PT121 = Float.parseFloat(data[i++]); 
-			FTPData.PT122 = Float.parseFloat(data[i++]);
-			FTPData.PT220 = Float.parseFloat(data[i++]);
-			FTPData.PT221 = Float.parseFloat(data[i++]);
-			FTPData.PT222 = Float.parseFloat(data[i++]);
-			FTPData.PT223 = Float.parseFloat(data[i++]);
-			FTPData.PT320 = Float.parseFloat(data[i++]);
-			FTPData.PT321 = Float.parseFloat(data[i++]);
-			FTPData.PT322 = Float.parseFloat(data[i++]);
-			FTPData.PT323 = Float.parseFloat(data[i++]);
-			FTPData.PT420 = Float.parseFloat(data[i++]);
-			FTPData.PT421 = Float.parseFloat(data[i++]);
-		
+			FTPData.PTs.put("PT120", Float.parseFloat(data[i++]));
+			FTPData.PTs.put("PT121", Float.parseFloat(data[i++]));
+			FTPData.PTs.put("PT122", Float.parseFloat(data[i++]));
+			FTPData.PTs.put("PT220", Float.parseFloat(data[i++]));
+			FTPData.PTs.put("PT221", Float.parseFloat(data[i++]));
+			FTPData.PTs.put("PT222", Float.parseFloat(data[i++]));
+			FTPData.PTs.put("PT223", Float.parseFloat(data[i++]));
+			FTPData.PTs.put("PT320", Float.parseFloat(data[i++]));
+			FTPData.PTs.put("PT321", Float.parseFloat(data[i++]));
+			FTPData.PTs.put("PT322", Float.parseFloat(data[i++]));
+			FTPData.PTs.put("PT323", Float.parseFloat(data[i++]));
+			FTPData.PTs.put("PT420", Float.parseFloat(data[i++]));
+			FTPData.PTs.put("PT421", Float.parseFloat(data[i++]));
+
+			inbf.close();
+
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println("Time taken " + (System.nanoTime() - time));
 	}
 }

@@ -8,6 +8,7 @@ import javafx.scene.chart.*;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Stop;
+import org.apache.commons.net.ftp.FTP;
 
 import java.util.*;
 import java.io.*;
@@ -166,26 +167,13 @@ public class ControllerVG {
 			public void run() {
 
 				// iterates through and updates values for psys gauges
-				int i = 1;
-				for (Gauge psysGauge : psysGauges) {
-					File file = new File("PT" + i++);
-					try {
-						Scanner scanner = new Scanner(file);
-						double readVal = scanner.nextDouble();
-						double linTrans = (readVal - 0.5) * (1500.0/4.0);
-						if (linTrans < 0) {
-							linTrans = 0;
-						}
-						psysGauge.setValue(Math.round(linTrans));
-						scanner.close();
-					} catch (FileNotFoundException e) {
-						System.out.println("File not found: " + file.getName());
-					} catch (NoSuchElementException e) {
-
-						// can be caused by the file being written to while attempting to read
-						System.out.println("Unable to read file: " + file.getName());
-
+				Iterator<Gauge> psysIter = psysGauges.iterator();
+				for (Map.Entry<String, Float> entry : FTPData.PTs.entrySet()) {
+					double linTrans = (entry.getValue() - 0.5) * (1500.0/4.0);
+					if (linTrans < 0) {
+						linTrans = 0;
 					}
+					psysIter.next().setValue(Math.round(linTrans));
 				}
 
 				// iterates through and updates values for misc gauges
@@ -224,7 +212,7 @@ public class ControllerVG {
 					Thrust_Gauge.setValue(thrustVal);
 					scanner.close();
 				} catch (FileNotFoundException e) {
-					System.out.println("File not found: " + file.getName());
+//					System.out.println("File not found: " + file.getName());
 				} catch (NoSuchElementException e) {
 
 					// can be caused by the file being written to while attempting to read

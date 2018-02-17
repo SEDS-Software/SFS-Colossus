@@ -179,7 +179,7 @@ public class ControllerPNID {
 						label.setText(Long.toString(Math.round(linTrans)));
 						scanner.close();
 					} catch (FileNotFoundException e) {
-						System.out.println("File not found: " + file.getName());
+//						System.out.println("File not found: " + file.getName());
 					} catch (NoSuchElementException e) {
 
 						// can be caused by the file being written to while attempting to read
@@ -201,7 +201,7 @@ public class ControllerPNID {
 						label.setText(Long.toString(Math.round(scanner.nextDouble())));
 						scanner.close();
 					} catch (FileNotFoundException e) {
-						System.out.println("File not found: " + file.getName());
+//						System.out.println("File not found: " + file.getName());
 					} catch (NoSuchElementException e) {
 
 						// can be caused by the file being written to while attempting to read
@@ -234,7 +234,7 @@ public class ControllerPNID {
 			}
 			scanner.close();
 		} catch (FileNotFoundException e) {
-			System.out.println("File not found: " + file.getName());
+//			System.out.println("File not found: " + file.getName());
 		} catch (NoSuchElementException e) {
 
 			// can be caused by the file being written to while attempting to read
@@ -254,7 +254,7 @@ public class ControllerPNID {
 				valveStates[i] = (scanner.nextDouble() > 0);
 				scanner.close();
 			} catch (FileNotFoundException e) {
-				System.out.println("File not found: " + file.getName());
+//				System.out.println("File not found: " + file.getName());
 			} catch (NoSuchElementException e) {
 				System.out.println("Unable to read file: " + file.getName());
 			}

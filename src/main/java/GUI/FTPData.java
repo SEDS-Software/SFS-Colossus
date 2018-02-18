@@ -43,14 +43,14 @@ public class FTPData implements Runnable {
 //				System.out.println(file.getName());
 //			}
 			
-//			while(true) {
+			while(true) {
 				try {
 					Thread.sleep(500);
 					updateValues();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-//			}
+			}
 			
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -61,35 +61,6 @@ public class FTPData implements Runnable {
 		}
 	}
 	
-	public void updateValues() {
-		Thread temp = (new Thread(new Updater(client)));
-		temp.start();	
-	}
-
-}
-
-/**
- * Updates the values of the instance variables.
- */
-class Updater implements Runnable {
-	
-	FTPClient client;
-	
-	public Updater(FTPClient client) {
-		this.client = client;
-	}
-
-	public void run(){
-		while(true) {
-			try {
-				Thread.sleep(500);
-				updateValues();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
 	public void updateValues() {
 		long time = System.nanoTime();
 		try {
@@ -167,4 +138,5 @@ class Updater implements Runnable {
 		}
 		System.out.println("Time taken " + (System.nanoTime() - time));
 	}
+
 }
